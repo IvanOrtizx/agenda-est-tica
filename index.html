@@ -1,0 +1,505 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<style>body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Nácar Nail Studio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Figtree:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: phone-first salon app, sticky header, category chips, bottom nav with 4 views */
+:root{
+  --bg:#F6F0EB; --surface:#FFFDFB; --ink:#2C1F1B; --muted:#6E5A52; --line:#E6D9D0;
+  --accent:#8A2C44; --accent-ink:#FFFFFF; --gold:#8A6420; --soft:#F1E3E1; --ok:#2F6B4A; --off:#9C4A2E;
+  --display:"Instrument Serif", "Times New Roman", serif;
+  --body:"Figtree", system-ui, -apple-system, "Segoe UI", sans-serif;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#1B1412; --surface:#251C19; --ink:#F4EAE4; --muted:#BFA99F; --line:#3A2D29;
+  --accent:#D9718A; --accent-ink:#1B1412; --gold:#D8B46A; --soft:#33221F; --ok:#7CC49C; --off:#E59A7C; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#1B1412; --surface:#251C19; --ink:#F4EAE4; --muted:#BFA99F; --line:#3A2D29;
+  --accent:#D9718A; --accent-ink:#1B1412; --gold:#D8B46A; --soft:#33221F; --ok:#7CC49C; --off:#E59A7C; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.45}
+.app{max-width:560px;margin:0 auto;padding-inline:16px;padding-block:0 110px}
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding-block:16px 10px;display:flex;align-items:center;gap:12px;border-bottom:1px solid var(--line)}
+.mark{width:44px;height:44px;border-radius:50%;background:var(--accent);color:var(--accent-ink);display:grid;place-items:center;font-family:var(--display);font-size:26px;flex:none}
+.brand{min-width:0;flex:1}
+.brand h1{margin:0;font-family:var(--display);font-weight:400;font-size:26px;line-height:1}
+.brand p{margin:3px 0 0;font-size:12.5px;color:var(--muted)}
+.open{font-size:12px;font-weight:600;color:var(--ok);display:flex;align-items:center;gap:5px;white-space:nowrap}
+.open::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor}
+.hero{padding-block:22px 6px}
+.hero h2{margin:0;font-family:var(--display);font-weight:400;font-size:38px;line-height:1.02;text-wrap:balance}
+.hero h2 em{color:var(--accent)}
+.hero p{margin:10px 0 0;color:var(--muted);max-width:44ch}
+.promo{margin-top:16px;background:var(--soft);border-radius:14px;padding:14px 16px;display:flex;gap:12px;align-items:flex-start}
+.promo svg{flex:none;color:var(--accent);margin-top:2px}
+.promo b{display:block;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+.chips{display:flex;gap:8px;overflow-x:auto;padding-block:16px 6px;scrollbar-width:none;position:sticky;top:calc(env(safe-area-inset-top,0px) + 71px);background:var(--bg);z-index:4}
+.chip{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:9px 16px;font-weight:600;font-size:14px;white-space:nowrap;min-height:40px}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+section.cat{padding-top:18px}
+.cat-h{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin-bottom:8px}
+.cat-h h3{margin:0;font-family:var(--display);font-weight:400;font-size:30px}
+.cat-h span{font-size:12.5px;color:var(--muted)}
+.svc{display:flex;gap:12px;align-items:center;padding:14px 0;border-top:1px solid var(--line)}
+.svc-info{flex:1;min-width:0}
+.svc-name{font-weight:700;font-size:15.5px}
+.svc-desc{font-size:13px;color:var(--muted);margin-top:2px}
+.svc-meta{display:flex;gap:10px;align-items:center;margin-top:6px;font-size:12.5px;color:var(--muted)}
+.price{font-weight:700;color:var(--gold);font-variant-numeric:tabular-nums;font-size:15px}
+.add{flex:none;min-width:44px;height:44px;border-radius:12px;border:1.5px solid var(--accent);background:transparent;color:var(--accent);display:grid;place-items:center;padding:0 10px;font-weight:700}
+.add.on{background:var(--accent);color:var(--accent-ink)}
+.svc.off{opacity:.55}
+.badge-off{font-size:11px;font-weight:700;color:var(--off);border:1px solid currentColor;border-radius:999px;padding:1px 8px}
+.view-title{font-family:var(--display);font-weight:400;font-size:34px;margin:22px 0 4px;line-height:1.05}
+.view-sub{margin:0 0 16px;color:var(--muted)}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+@media (min-width:480px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.design{border:1px solid var(--line);background:var(--surface);border-radius:16px;padding:10px;text-align:left;display:flex;flex-direction:column;gap:8px}
+.design[aria-pressed="true"]{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent) inset}
+.design canvas{width:100%;aspect-ratio:1/1;border-radius:10px;display:block;max-width:100%}
+.design b{font-size:13.5px}
+.design small{color:var(--muted);font-size:12px;margin-top:-6px}
+.note{font-size:12.5px;color:var(--muted);background:var(--soft);border-radius:10px;padding:10px 12px;margin-top:14px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:16px;margin-bottom:14px}
+.card h4{margin:0 0 10px;font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.line{display:flex;justify-content:space-between;gap:10px;padding:6px 0;font-variant-numeric:tabular-nums}
+.line .x{border:0;background:none;color:var(--muted);text-decoration:underline;font-size:12.5px;padding:0 0 0 8px;min-height:32px}
+.total{border-top:1px solid var(--line);margin-top:6px;padding-top:10px;font-weight:700;font-size:17px}
+.days{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
+.day{flex:none;width:58px;border:1px solid var(--line);background:var(--bg);border-radius:12px;padding:8px 0;text-align:center;display:flex;flex-direction:column;gap:1px}
+.day b{font-size:20px;font-family:var(--display);font-weight:400}
+.day small{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
+.day[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.day[aria-pressed="true"] small{color:var(--bg)}
+.day:disabled{opacity:.4;cursor:not-allowed}
+.hours{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-top:12px}
+.hour{border:1px solid var(--line);background:var(--bg);border-radius:10px;min-height:42px;font-weight:600;font-variant-numeric:tabular-nums}
+.hour[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.hour:disabled{text-decoration:line-through;opacity:.45;cursor:not-allowed}
+.seg{display:flex;gap:8px;flex-wrap:wrap}
+label.f{display:block;font-size:13px;font-weight:600;margin:12px 0 6px}
+input.t,textarea.t,select.t{width:100%;border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:10px;padding:11px 12px;font:inherit;min-height:44px}
+textarea.t{min-height:70px;resize:vertical}
+.cta{width:100%;min-height:54px;border:0;border-radius:14px;background:var(--accent);color:var(--accent-ink);font-weight:700;font-size:16px;display:flex;align-items:center;justify-content:center;gap:10px}
+.cta:disabled{opacity:.5;cursor:not-allowed}
+.err{color:var(--off);font-size:13px;margin-top:8px}
+.stamps{display:grid;grid-template-columns:repeat(10,minmax(0,1fr));gap:6px;margin-top:8px}
+.stamp{aspect-ratio:1/1;border-radius:50%;border:1.5px dashed var(--line);max-width:100%}
+.stamp.full{background:var(--accent);border:0}
+.stamp.gift{border-color:var(--gold);border-style:solid}
+.empty{text-align:center;color:var(--muted);padding:26px 10px}
+.row{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:10px 0;border-top:1px solid var(--line)}
+.row:first-of-type{border-top:0}
+.row .who{min-width:0}
+.row .who b{display:block}
+.row .who span{font-size:12.5px;color:var(--muted)}
+.tag{font-size:12px;font-weight:700;border-radius:999px;padding:3px 10px;background:var(--soft);white-space:nowrap}
+.switch{position:relative;width:48px;height:28px;flex:none}
+.switch input{position:absolute;inset:0;opacity:0;margin:0;cursor:pointer}
+.switch span{position:absolute;inset:0;border-radius:999px;background:var(--line);transition:background .15s}
+.switch span::after{content:"";position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:var(--surface);transition:transform .15s}
+.switch input:checked + span{background:var(--ok)}
+.switch input:checked + span::after{transform:translateX(20px)}
+.switch input:focus-visible + span{outline:2px solid var(--accent);outline-offset:2px}
+.sheet-hint{display:flex;gap:10px;align-items:flex-start;font-size:13px;color:var(--muted)}
+nav.bottom{position:fixed;left:0;right:0;bottom:0;z-index:10;background:var(--surface);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom,0px)}
+nav.bottom .in{max-width:560px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr)}
+nav.bottom button{border:0;background:none;min-height:62px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font-size:11.5px;font-weight:600;color:var(--muted);position:relative}
+nav.bottom button[aria-current="page"]{color:var(--accent)}
+.count{position:absolute;top:8px;left:calc(50% + 6px);background:var(--accent);color:var(--accent-ink);border-radius:999px;font-size:11px;min-width:18px;height:18px;display:grid;place-items:center;padding:0 5px}
+.toast{position:fixed;left:50%;bottom:84px;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:999px;font-size:13.5px;font-weight:600;z-index:20;max-width:calc(100% - 32px)}
+.check{display:flex;gap:10px;align-items:flex-start;margin-top:14px;font-size:13.5px;cursor:pointer}
+.check input{width:20px;height:20px;margin:1px 0 0;accent-color:var(--accent);flex:none}
+.check small{display:block;color:var(--muted);font-size:12px;margin-top:2px}
+.sum{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:6px}
+.sum span{font-size:12.5px;font-weight:600;background:var(--soft);border-radius:999px;padding:4px 10px}
+.remind{flex:none;min-height:40px;border-radius:10px;border:1.5px solid var(--accent);background:transparent;color:var(--accent);font-weight:700;font-size:13px;padding:0 12px;display:flex;align-items:center;gap:6px}
+.remind.done{border-color:var(--line);color:var(--muted)}
+.row .who .st{font-weight:700}
+.btn2{min-height:44px;border-radius:12px;border:1.5px solid var(--ink);background:transparent;font-weight:700;padding:0 16px;margin-top:12px}
+.demo-flag{font-size:11.5px;text-align:center;color:var(--muted);padding-top:22px}
+@media (prefers-reduced-motion: reduce){*{transition:none!important}}
+</style>
+
+<div class="app">
+  <header class="top">
+    <div class="mark" aria-hidden="true">N</div>
+    <div class="brand">
+      <h1>Nácar Nail Studio</h1>
+      <p>Manicura · Pedicura · Diseño</p>
+    </div>
+    <span class="open" id="openState">Abierto hoy</span>
+  </header>
+
+  <!-- SERVICIOS -->
+  <main id="v-servicios">
+    <div class="hero">
+      <h2>Elige tus servicios y <em>reserva tu cita</em> en un minuto.</h2>
+      <p>Precios siempre actualizados. Tu reserva nos llega directo por WhatsApp y te confirmamos la hora.</p>
+      <div class="promo" id="promoBox">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12v9H4v-9"/><path d="M2 7h20v5H2z"/><path d="M12 21V7"/><path d="M12 7H7.5a2.5 2.5 0 1 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 1 0 0-5C13 2 12 7 12 7z"/></svg>
+        <div><b>Promo del mes</b><span id="promoText"></span></div>
+      </div>
+    </div>
+    <div class="chips" role="group" aria-label="Categorías" id="chips"></div>
+    <div id="cats"></div>
+  </main>
+
+  <!-- DISEÑOS -->
+  <main id="v-disenos" hidden>
+    <h2 class="view-title">Diseños</h2>
+    <p class="view-sub">Toca uno para usarlo como referencia en tu reserva.</p>
+    <div class="grid" id="designs"></div>
+    <p class="note">En la versión final aquí van las fotos reales de los trabajos del salón, y la dueña puede subir nuevas cuando quiera.</p>
+  </main>
+
+  <!-- RESERVA -->
+  <main id="v-reserva" hidden>
+    <h2 class="view-title">Tu reserva</h2>
+    <p class="view-sub">Revisa, elige el día y la hora, y envíala por WhatsApp.</p>
+    <div id="resBody"></div>
+  </main>
+
+  <!-- PANEL -->
+  <main id="v-panel" hidden>
+    <h2 class="view-title">Panel del salón</h2>
+    <p class="view-sub">Lo que ve la dueña. En la versión final se maneja desde una hoja de Google Sheets.</p>
+    <div class="card">
+      <h4>Clientas · Por recordar</h4>
+      <div class="sum" id="clientSum"></div>
+      <p style="margin:0 0 6px;font-size:13px;color:var(--muted)">Cada reserva queda guardada. Según el servicio, el sistema calcula cuándo le toca volver. Toca "Recordar" y se abre WhatsApp con el mensaje listo.</p>
+      <div id="clientList"></div>
+      <p class="note" style="margin-top:10px">En la demo, los recordatorios de las clientas de ejemplo llegan a tu número. Las reservas que hagas aquí se suman a la lista con su celular real.</p>
+    </div>
+    <div class="card">
+      <h4>Citas de hoy</h4>
+      <div id="todayList"></div>
+    </div>
+    <div class="card">
+      <h4>Promo del mes</h4>
+      <label class="f" for="promoInput">Texto que ven las clientas</label>
+      <textarea class="t" id="promoInput"></textarea>
+      <p id="promoAud" style="margin:10px 0 0;font-size:13px;color:var(--muted)"></p>
+      <button class="btn2" id="copyPromo">Copiar promo para difusión</button>
+    </div>
+    <div class="card">
+      <h4>Servicios disponibles</h4>
+      <div class="sheet-hint">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex:none;margin-top:1px"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M3 15h18M9 3v18"/></svg>
+        <span>Apaga un servicio y deja de aparecer para reservar. Ideal cuando se acaba un producto o no está la manicurista que lo hace.</span>
+      </div>
+      <div id="toggles" style="margin-top:8px"></div>
+    </div>
+  </main>
+
+  <p class="demo-flag">Demo de muestra · Nombre, horarios y citas son de ejemplo</p>
+</div>
+
+<nav class="bottom" aria-label="Secciones">
+  <div class="in">
+    <button data-v="servicios" aria-current="page">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg>Servicios</button>
+    <button data-v="disenos">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 3h6v4a3 3 0 0 1-6 0z"/><path d="M8 11c0 5 1 10 4 10s4-5 4-10"/></svg>Diseños</button>
+    <button data-v="reserva">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>Reservar<span class="count" id="count" hidden>0</span></button>
+    <button data-v="panel">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>Salón</button>
+  </div>
+</nav>
+<div class="toast" id="toast" role="status" hidden></div>
+
+<script>
+const WHATSAPP = "573124502235"; // demo: llega al número de quien muestra la demo
+const CATS = [
+  {id:"manicura", name:"Manicura", items:[
+    ["m-semi","Semipermanente","Esmalte en gel curado en lámpara. Brillo de 2 a 3 semanas.",40000,60],
+    ["m-trad","Tradicional normal","Limpieza, cutícula y esmalte clásico.",20000,45],
+    ["m-rapido","Secado rápido","Esmalte tradicional con fórmula de secado acelerado.",22000,45],
+    ["m-rubber","Base rubber","Base flexible que nivela y fortalece la uña natural.",55000,75],
+    ["m-dipping","Dipping","Polvo sellado sobre la uña. Muy resistente y sin lámpara.",65000,75],
+    ["m-builder","Builder gel","Gel de construcción para dar forma y algo de largo.",60000,90],
+    ["m-soft","Soft gel","Extensiones con tips de gel suave, livianas y naturales.",85000,90],
+    ["m-press","Press On","Uñas prediseñadas a la medida de tus manos.",75000,60],
+    ["m-acrigel","Recubrimiento en acrigel","Capa de acrigel sobre la uña natural para que no se parta.",85000,90]
+  ]},
+  {id:"pedicura", name:"Pedicura", items:[
+    ["p-semi","Semipermanente","Pedicura completa con esmalte en gel.",40000,60],
+    ["p-trad","Tradicional normal","Pedicura completa con esmalte clásico.",20000,50],
+    ["p-rapido","Secado rápido","Pedicura con esmalte de secado acelerado.",22000,50],
+    ["p-jelly","Jelly spa","Baño relajante en gel para los pies. Se suma a tu pedicura.",12000,20]
+  ]},
+  {id:"combos", name:"Combos manos y pies", items:[
+    ["c-semi","Semipermanente","Manicura y pedicura en gel.",75000,110],
+    ["c-trad","Tradicional normal","Manicura y pedicura con esmalte clásico.",36000,90],
+    ["c-rapido","Secado rápido","Manicura y pedicura de secado acelerado.",40000,90]
+  ]}
+];
+const ALL = {}; CATS.forEach(c=>c.items.forEach(i=>ALL[i[0]]={id:i[0],name:i[1],desc:i[2],price:i[3],min:i[4],cat:c.name}));
+const DESIGNS = [
+  {id:"nude",name:"Nude clásico",tag:"Elegante",base:"#E8C4B0",style:"plain"},
+  {id:"french",name:"Francés",tag:"Atemporal",base:"#F3D9D0",style:"french"},
+  {id:"vino",name:"Vino tinto",tag:"Temporada",base:"#6E1A2D",style:"plain"},
+  {id:"chrome",name:"Efecto chrome",tag:"Tendencia",base:"#C9C3D6",style:"chrome"},
+  {id:"glitter",name:"Degradé glitter",tag:"Fiesta",base:"#F2C9D3",style:"glitter"},
+  {id:"puntos",name:"Puntos minimal",tag:"Delicado",base:"#F7EDE6",style:"dots"}
+];
+const SLOTS = ["8:00","9:30","11:00","1:00","2:30","4:00","5:30","7:00"];
+const PROS = ["Sin preferencia","Laura","Daniela","Valentina"];
+
+const store = {
+  get(k,d){try{const v=localStorage.getItem("nacar-"+k);return v?JSON.parse(v):d}catch(e){return d}},
+  set(k,v){try{localStorage.setItem("nacar-"+k,JSON.stringify(v))}catch(e){}}
+};
+let state = {
+  cart: store.get("cart",["m-semi"]),
+  design: store.get("design","french"),
+  off: store.get("off",["m-press"]),
+  promo: store.get("promo","Los martes, Jelly spa gratis con tu pedicura semipermanente."),
+  day: null, slot: null, pro: "Sin preferencia",
+  name: store.get("name",""), phone: store.get("phone",""), notes:"", consent:false
+};
+/* Días para volver según el servicio (se ajusta con la dueña) */
+const RETURN = {"m-semi":21,"m-trad":10,"m-rapido":10,"m-rubber":21,"m-dipping":28,"m-builder":21,"m-soft":21,"m-press":21,"m-acrigel":21,
+  "p-semi":28,"p-trad":21,"p-rapido":21,"p-jelly":28,"c-semi":21,"c-trad":10,"c-rapido":10};
+const DAY = 864e5;
+const isoDaysAgo = n=>{const d=new Date();d.setHours(12,0,0,0);d.setDate(d.getDate()-n);return d.toISOString().slice(0,10)};
+const SAMPLE_CLIENTS = [
+  {name:"Paula Ríos",phone:"",services:["m-soft"],date:isoDaysAgo(25),consent:true,sample:true},
+  {name:"Mariana Gómez",phone:"",services:["c-trad"],date:isoDaysAgo(12),consent:true,sample:true},
+  {name:"Carolina Pérez",phone:"",services:["m-semi"],date:isoDaysAgo(21),consent:true,sample:true},
+  {name:"Natalia Cruz",phone:"",services:["p-semi","p-jelly"],date:isoDaysAgo(26),consent:false,sample:true},
+  {name:"Sofía Lozano",phone:"",services:["m-dipping"],date:isoDaysAgo(20),consent:true,sample:true},
+  {name:"Daniela Vargas",phone:"",services:["m-trad"],date:isoDaysAgo(3),consent:true,sample:true}
+];
+function clients(){return [...store.get("clients",[]),...SAMPLE_CLIENTS]}
+function dueInfo(c){
+  const days=Math.min(...c.services.map(id=>RETURN[id]||21));
+  const due=new Date(c.date+"T12:00:00").getTime()+days*DAY;
+  const today=new Date();today.setHours(12,0,0,0);
+  return {days,diff:Math.round((due-today.getTime())/DAY)};
+}
+const $ = s=>document.querySelector(s);
+const money = n=>"$"+n.toLocaleString("es-CO").replace(/,/g,".");
+const esc = s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const dur = m=>m>=60?(Math.floor(m/60)+" h"+(m%60?" "+m%60+" min":"")):m+" min";
+function toast(t){const el=$("#toast");el.textContent=t;el.hidden=false;clearTimeout(toast.t);toast.t=setTimeout(()=>el.hidden=true,1800)}
+function save(){store.set("cart",state.cart);store.set("design",state.design);store.set("off",state.off);store.set("promo",state.promo)}
+
+/* ---------- Servicios ---------- */
+function renderChips(){
+  $("#chips").innerHTML = CATS.map((c,i)=>`<button class="chip" data-cat="${c.id}" aria-pressed="${i===0}">${c.name}</button>`).join("");
+}
+function renderCats(){
+  $("#promoText").textContent = state.promo;
+  $("#promoBox").hidden = !state.promo.trim();
+  $("#cats").innerHTML = CATS.map(c=>`
+    <section class="cat" id="cat-${c.id}">
+      <div class="cat-h"><h3>${c.name}</h3><span>${c.items.length} servicios</span></div>
+      ${c.items.map(([id])=>{const s=ALL[id];const off=state.off.includes(id);const on=state.cart.includes(id);
+        return `<div class="svc${off?" off":""}">
+          <div class="svc-info">
+            <div class="svc-name">${s.name}</div>
+            <div class="svc-desc">${s.desc}</div>
+            <div class="svc-meta"><span class="price">${money(s.price)}</span><span>aprox. ${dur(s.min)}</span>${off?'<span class="badge-off">No disponible hoy</span>':""}</div>
+          </div>
+          ${off?"":`<button class="add${on?" on":""}" data-add="${id}" aria-label="${on?"Quitar":"Agregar"} ${s.name}" aria-pressed="${on}">${on?'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5L20 7"/></svg>':'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>'}</button>`}
+        </div>`}).join("")}
+    </section>`).join("");
+  updateCount();
+}
+function updateCount(){const n=state.cart.length;const c=$("#count");c.textContent=n;c.hidden=!n}
+
+/* ---------- Diseños ---------- */
+function drawNail(cv,d){
+  const W=300,H=300;cv.width=W;cv.height=H;const g=cv.getContext("2d");
+  g.fillStyle="#EAD7CC";g.fillRect(0,0,W,H);
+  const nail=(x,y,w,h)=>{g.beginPath();g.moveTo(x,y+h);g.lineTo(x,y+w/2);g.arc(x+w/2,y+w/2,w/2,Math.PI,0);g.lineTo(x+w,y+h);g.closePath()};
+  [[52,70,52,170],[124,40,56,200],[200,62,52,178]].forEach(([x,y,w,h],k)=>{
+    g.save();nail(x,y,w,h);g.clip();
+    if(d.style==="chrome"){const gr=g.createLinearGradient(x,y,x+w,y+h);gr.addColorStop(0,"#F4F2F8");gr.addColorStop(.45,d.base);gr.addColorStop(.6,"#FFFFFF");gr.addColorStop(1,"#8E879E");g.fillStyle=gr}
+    else if(d.style==="glitter"){const gr=g.createLinearGradient(0,y,0,y+h);gr.addColorStop(0,"#C99A3E");gr.addColorStop(.55,d.base);gr.addColorStop(1,d.base);g.fillStyle=gr}
+    else g.fillStyle=d.base;
+    g.fillRect(x,y,w,h);
+    if(d.style==="french"){g.fillStyle="#FFFFFF";g.beginPath();g.ellipse(x+w/2,y+6,w*.62,w*.55,0,0,Math.PI);g.fill()}
+    if(d.style==="glitter"){let s=k*97+13;for(let i=0;i<70;i++){s=(s*9301+49297)%233280;const rx=x+(s/233280)*w;s=(s*9301+49297)%233280;const ry=y+(s/233280)*h*.55;g.fillStyle=i%3?"#FFF4D6":"#E7C16A";g.fillRect(rx,ry,2.5,2.5)}}
+    if(d.style==="dots"){g.fillStyle="#8A2C44";for(let i=0;i<3;i++){g.beginPath();g.arc(x+w/2,y+40+i*26,4,0,7);g.fill()}}
+    g.fillStyle="rgba(255,255,255,.28)";g.fillRect(x+w*.22,y+18,5,h*.5);
+    g.restore();
+  });
+}
+function renderDesigns(){
+  $("#designs").innerHTML = DESIGNS.map(d=>`<button class="design" data-design="${d.id}" aria-pressed="${state.design===d.id}"><canvas aria-hidden="true"></canvas><b>${d.name}</b><small>${d.tag}</small></button>`).join("");
+  document.querySelectorAll("#designs .design").forEach((b,i)=>drawNail(b.querySelector("canvas"),DESIGNS[i]));
+}
+
+/* ---------- Reserva ---------- */
+function nextDays(){
+  const out=[],now=new Date();const wd=["dom","lun","mar","mié","jue","vie","sáb"];
+  for(let i=0;i<8;i++){const d=new Date(now);d.setDate(now.getDate()+i);out.push({key:d.toISOString().slice(0,10),n:d.getDate(),wd:wd[d.getDay()],closed:d.getDay()===0,label:(i===0?"hoy ":i===1?"mañana ":"")+wd[d.getDay()]+" "+d.getDate()})}
+  return out;
+}
+function busy(dayKey,slot){let h=0;for(const ch of dayKey+slot)h=(h*31+ch.charCodeAt(0))%97;return h%4===0}
+function renderReserva(){
+  const items=state.cart.map(id=>ALL[id]).filter(Boolean).filter(s=>!state.off.includes(s.id));
+  if(!items.length){
+    $("#resBody").innerHTML=`<div class="card empty"><p style="margin:0 0 14px">Aún no has elegido servicios.</p><button class="cta" data-go="servicios">Ver servicios</button></div>`;
+    return;
+  }
+  const total=items.reduce((a,s)=>a+s.price,0), mins=items.reduce((a,s)=>a+s.min,0);
+  const days=nextDays(); if(!state.day){const f=days.find(d=>!d.closed);state.day=f.key}
+  const dsg=DESIGNS.find(d=>d.id===state.design);
+  const points=store.get("points",7);
+  $("#resBody").innerHTML=`
+  <div class="card">
+    <h4>Servicios</h4>
+    ${items.map(s=>`<div class="line"><span>${s.cat==="Combos manos y pies"?"Combo ":""}${s.name}<button class="x" data-del="${s.id}">Quitar</button></span><span class="price">${money(s.price)}</span></div>`).join("")}
+    <div class="line total"><span>Total aprox. · ${dur(mins)}</span><span>${money(total)}</span></div>
+    <div class="line" style="font-size:13.5px;color:var(--muted)"><span>Diseño de referencia: <b style="color:var(--ink)">${dsg?dsg.name:"ninguno"}</b></span><button class="x" data-go="disenos">Cambiar</button></div>
+  </div>
+  <div class="card">
+    <h4>Día y hora</h4>
+    <div class="days" role="group" aria-label="Día">${days.map(d=>`<button class="day" data-day="${d.key}" aria-pressed="${state.day===d.key}" ${d.closed?"disabled":""} aria-label="${d.label}${d.closed?", cerrado":""}"><small>${d.wd}</small><b>${d.n}</b></button>`).join("")}</div>
+    <div class="hours" role="group" aria-label="Hora">${SLOTS.map(s=>{const b=busy(state.day,s);return `<button class="hour" data-slot="${s}" aria-pressed="${state.slot===s}" ${b?"disabled":""} aria-label="${s}${b?", ocupado":""}">${s}</button>`}).join("")}</div>
+    <p style="margin:10px 0 0;font-size:12.5px;color:var(--muted)">Las horas tachadas ya están ocupadas. El salón confirma tu cita por WhatsApp.</p>
+    <label class="f" for="pro">Manicurista</label>
+    <select class="t" id="pro">${PROS.map(p=>`<option ${state.pro===p?"selected":""}>${p}</option>`).join("")}</select>
+  </div>
+  <div class="card">
+    <h4>Tus datos</h4>
+    <label class="f" for="name" style="margin-top:0">Nombre</label>
+    <input class="t" id="name" autocomplete="name" value="${esc(state.name)}" placeholder="Ej. Carolina Pérez">
+    <label class="f" for="phone">Celular</label>
+    <input class="t" id="phone" inputmode="tel" autocomplete="tel" value="${esc(state.phone)}" placeholder="300 000 0000">
+    <label class="f" for="notes">Notas (opcional)</label>
+    <textarea class="t" id="notes" placeholder="Ej. traigo foto del diseño, uñas largas, alergia a algún producto">${esc(state.notes)}</textarea>
+    <label class="check" for="consent"><input type="checkbox" id="consent" ${state.consent?"checked":""}><span>Acepto que Nácar guarde mis datos para recordarme mi próxima cita y enviarme promociones por WhatsApp.<small>Puedes pedir que te retiremos cuando quieras (Ley 1581 de 2012).</small></span></label>
+  </div>
+  <div class="card">
+    <h4>Tu tarjeta de puntos</h4>
+    <div style="font-size:14px">${points} de 10 visitas. En la 10.ª tienes <b>50% en tu manicura</b>.</div>
+    <div class="stamps" aria-hidden="true">${Array.from({length:10},(_,i)=>`<span class="stamp${i<points?" full":""}${i===9?" gift":""}"></span>`).join("")}</div>
+  </div>
+  <button class="cta" id="send"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.4 8.4 0 0 1-12.4 7.4L3 21l2.1-5.4A8.4 8.4 0 1 1 21 11.5z"/></svg>Enviar reserva por WhatsApp</button>
+  <div class="err" id="err" role="alert"></div>`;
+}
+function buildMsg(){
+  const items=state.cart.map(id=>ALL[id]).filter(s=>s&&!state.off.includes(s.id));
+  const total=items.reduce((a,s)=>a+s.price,0), mins=items.reduce((a,s)=>a+s.min,0);
+  const d=nextDays().find(x=>x.key===state.day); const dsg=DESIGNS.find(x=>x.id===state.design);
+  return ["*Nueva reserva · Nácar Nail Studio*","",
+    ...items.map(s=>"• "+(s.cat==="Combos manos y pies"?"Combo ":s.cat+" ")+s.name+" — "+money(s.price)),
+    "","*Total aprox.:* "+money(total)+" ("+dur(mins)+")",
+    "*Diseño de referencia:* "+(dsg?dsg.name:"ninguno"),
+    "*Día:* "+(d?d.label:"")+"  *Hora:* "+state.slot,
+    "*Manicurista:* "+state.pro,"",
+    "*Nombre:* "+state.name.trim(),"*Celular:* "+state.phone.trim(),
+    state.notes.trim()?"*Notas:* "+state.notes.trim():"",
+    "*Recordatorios y promos:* "+(state.consent?"Sí acepta":"No acepta")
+  ].filter((l,i,a)=>!(l===""&&a[i-1]==="")).join("\n").trim();
+}
+
+/* ---------- Panel ---------- */
+function renderPanel(){
+  const today=[
+    ["9:30","Mariana G.","Combo semipermanente","Confirmada"],
+    ["11:00","Paula R.","Soft gel","Confirmada"],
+    ["2:30","Sofía L.","Manicura tradicional","Por confirmar"],
+    ["5:30","Natalia C.","Dipping + Jelly spa","Por confirmar"]];
+  $("#todayList").innerHTML=today.map(r=>`<div class="row"><div class="who"><b>${r[0]} · ${r[1]}</b><span>${r[2]}</span></div><span class="tag" style="color:${r[3]==="Confirmada"?"var(--ok)":"var(--gold)"}">${r[3]}</span></div>`).join("");
+  $("#promoInput").value=state.promo;
+  const list=clients().map(c=>({...c,...dueInfo(c)})).sort((a,b)=>a.diff-b.diff);
+  const reminded=store.get("reminded",{});const todayKey=isoDaysAgo(0);
+  const dueNow=list.filter(c=>c.diff<=0).length, soon=list.filter(c=>c.diff>0&&c.diff<=7).length, ok=list.filter(c=>c.consent).length;
+  $("#clientSum").innerHTML=`<span>${list.length} clientas</span><span style="color:var(--accent)">${dueNow} por recordar hoy</span><span>${soon} esta semana</span>`;
+  $("#clientList").innerHTML=list.map((c,i)=>{
+    const names=c.services.map(id=>ALL[id]?(ALL[id].cat==="Combos manos y pies"?"Combo ":"")+ALL[id].name.toLowerCase():"").join(" + ");
+    const st=c.diff<0?`Le tocaba hace ${-c.diff} día${c.diff===-1?"":"s"}`:c.diff===0?"Le toca hoy":`Le toca en ${c.diff} día${c.diff===1?"":"s"}`;
+    const col=c.diff<=0?"var(--accent)":"var(--muted)";
+    const done=reminded[c.name+c.date]===todayKey;
+    const btn=!c.consent?`<span class="tag" style="color:var(--muted)">Sin autorización</span>`
+      :`<button class="remind${done?" done":""}" data-remind="${i}" aria-label="Recordar a ${esc(c.name)} por WhatsApp">${done?"Recordada":'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.4 8.4 0 0 1-12.4 7.4L3 21l2.1-5.4A8.4 8.4 0 1 1 21 11.5z"/></svg>Recordar'}</button>`;
+    return `<div class="row"><div class="who"><b>${esc(c.name)}${c.sample?"":" · nueva"}</b><span>${esc(names)} · cada ${c.days} días</span><br><span class="st" style="color:${col}">${st}</span></div>${btn}</div>`}).join("");
+  renderPanel.list=list;
+  $("#promoAud").textContent=`${ok} de ${list.length} clientas aceptaron promociones. Copia el texto y envíalo por una lista de difusión de WhatsApp Business.`;
+  $("#toggles").innerHTML=CATS.map(c=>`<div style="font-weight:700;margin:14px 0 2px">${c.name}</div>`+c.items.map(([id])=>{const s=ALL[id];const on=!state.off.includes(id);
+    return `<div class="row"><div class="who"><b>${s.name}</b><span>${money(s.price)}</span></div><label class="switch"><input type="checkbox" id="tg-${id}" data-tg="${id}" ${on?"checked":""} aria-label="${s.name} (${c.name}) disponible"><span></span></label></div>`}).join("")).join("");
+}
+
+/* ---------- Navegación ---------- */
+function show(v){
+  ["servicios","disenos","reserva","panel"].forEach(x=>$("#v-"+x).hidden=x!==v);
+  document.querySelectorAll("nav.bottom button").forEach(b=>{if(b.dataset.v===v)b.setAttribute("aria-current","page");else b.removeAttribute("aria-current")});
+  if(v==="servicios")renderCats();
+  if(v==="disenos")renderDesigns();
+  if(v==="reserva")renderReserva();
+  if(v==="panel")renderPanel();
+  window.scrollTo(0,0);
+}
+
+document.addEventListener("click",e=>{
+  const t=e.target.closest("button");if(!t)return;
+  if(t.dataset.v){show(t.dataset.v);return}
+  if(t.dataset.go){show(t.dataset.go);return}
+  if(t.dataset.cat){document.querySelectorAll(".chip").forEach(c=>c.setAttribute("aria-pressed",c===t));
+    const sec=$("#cat-"+t.dataset.cat);const y=sec.getBoundingClientRect().top+window.scrollY-130;window.scrollTo({top:y,behavior:matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth"});return}
+  if(t.dataset.add){const id=t.dataset.add;const i=state.cart.indexOf(id);
+    if(i>=0){state.cart.splice(i,1);toast("Quitado")}else{state.cart.push(id);toast(ALL[id].name+" agregado")}
+    save();renderCats();return}
+  if(t.dataset.design){state.design=t.dataset.design;save();renderDesigns();toast("Diseño elegido: "+DESIGNS.find(d=>d.id===state.design).name);return}
+  if(t.dataset.del){state.cart=state.cart.filter(x=>x!==t.dataset.del);save();updateCount();renderReserva();return}
+  if(t.dataset.day){state.day=t.dataset.day;state.slot=null;renderReserva();return}
+  if(t.dataset.slot){state.slot=t.dataset.slot;renderReserva();return}
+  if(t.dataset.remind){
+    const c=renderPanel.list[+t.dataset.remind];
+    const names=c.services.map(id=>ALL[id]?ALL[id].name.toLowerCase():"").join(" y ");
+    const first=c.name.split(" ")[0];
+    const msg=c.diff<=0
+      ?`Hola ${first}, te saluda Nácar Nail Studio. Ya es momento de renovar tu ${names}. ¿Te agendamos esta semana? Responde con el día que te quede mejor.`
+      :`Hola ${first}, te saluda Nácar Nail Studio. En ${c.diff} día${c.diff===1?"":"s"} te toca renovar tu ${names}. ¿Te apartamos un espacio?`;
+    const num=c.phone?("57"+c.phone.replace(/\D/g,"").slice(-10)):WHATSAPP;
+    const a=document.createElement("a");a.href="https://wa.me/"+num+"?text="+encodeURIComponent(msg);a.target="_blank";a.rel="noopener";document.body.appendChild(a);a.click();a.remove();
+    const r=store.get("reminded",{});r[c.name+c.date]=isoDaysAgo(0);store.set("reminded",r);renderPanel();toast("Abriendo WhatsApp para "+first);return}
+  if(t.id==="copyPromo"){
+    const txt="Nácar Nail Studio · Promo del mes\n"+state.promo+"\nReserva aquí: [link del catálogo]";
+    navigator.clipboard.writeText(txt).then(()=>toast("Promo copiada")).catch(()=>{const ta=$("#promoInput");ta.focus();ta.select();toast("Selecciona y copia el texto")});return}
+  if(t.id==="send"){
+    const err=$("#err");
+    if(!state.slot){err.textContent="Elige una hora para tu cita.";return}
+    if(state.name.trim().length<2){err.textContent="Escribe tu nombre.";$("#name").focus();return}
+    if(state.phone.replace(/\D/g,"").length<10){err.textContent="Escribe un celular de 10 dígitos.";$("#phone").focus();return}
+    err.textContent="";store.set("name",state.name);store.set("phone",state.phone);
+    const saved=store.get("clients",[]).filter(c=>c.phone.replace(/\D/g,"")!==state.phone.replace(/\D/g,""));
+    saved.unshift({name:state.name.trim(),phone:state.phone.trim(),services:state.cart.filter(id=>!state.off.includes(id)),date:state.day,consent:state.consent});
+    store.set("clients",saved);
+    const a=document.createElement("a");a.href="https://wa.me/"+WHATSAPP+"?text="+encodeURIComponent(buildMsg());a.target="_blank";a.rel="noopener";document.body.appendChild(a);a.click();a.remove();
+    toast("Abriendo WhatsApp con tu reserva");
+  }
+});
+document.addEventListener("input",e=>{
+  const id=e.target.id;
+  if(id==="name"||id==="phone"||id==="notes")state[id]=e.target.value;
+  if(id==="pro")state.pro=e.target.value;
+  if(id==="promoInput"){state.promo=e.target.value;save()}
+});
+document.addEventListener("change",e=>{
+  if(e.target.id==="pro")state.pro=e.target.value;
+  if(e.target.id==="consent")state.consent=e.target.checked;
+  if(e.target.dataset&&e.target.dataset.tg){const id=e.target.dataset.tg;
+    state.off=e.target.checked?state.off.filter(x=>x!==id):[...state.off,id];save();toast(e.target.checked?"Servicio activado":"Servicio oculto para reservas")}
+});
+
+(function(){const h=new Date().getHours(),d=new Date().getDay();const open=d!==0&&h>=8&&h<20;const el=$("#openState");el.textContent=open?"Abierto ahora":"Abre 8:00 a. m.";if(!open)el.style.color="var(--muted)"})();
+renderChips();renderCats();
+</script>
+
+</html>
