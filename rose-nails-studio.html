@@ -516,7 +516,51 @@ function wa(phone,text){return `https://wa.me/57${digits(phone)}?text=${encodeUR
 function styleText(st){
   const out=[];if(st&&st.hands){const h=st.hands;const p=[h.shape,h.len,h.finish,h.color].filter(Boolean);out.push('Manos: '+(p.join(' · ')||'sin preferencia'))}
   if(st&&st.feet){const f=st.feet;const p=[f.finish,f.color].filter(Boolean);out.push('Pies: '+(p.join(' · ')||'sin preferencia'))}
+  if(st&&st.text)out.push(st.text);
   return out.join('  |  ');
+}
+let NA=null;
+function newApptBlock(){
+  if(!NA)return `<div style="display:flex;justify-content:center;margin-bottom:14px"><button class="btn" id="naOpen">+ Agendar cita</button></div>`;
+  const names=clients().map(c=>`<option value="${esc(c.name)}"></option>`).join('');
+  const times=SLOTS.map(t=>{const tk=NA.staff&&NA.date&&busy(NA.staff,NA.date,t);return `<option value="${t}" ${tk?'disabled':''} ${NA.time===t?'selected':''}>${t}${tk?' (ocupada)':''}</option>`}).join('');
+  const tot=[...NA.services].reduce((x,i)=>x+svc(i).price,0);
+  return `<div class="panel" style="margin-bottom:14px;display:grid;gap:14px">
+   <h3 style="font-size:20px;text-align:center">Nueva cita</h3>
+   <div class="fields">
+    <div class="field"><label class="lbl" for="naName">Clienta</label><input id="naName" list="naNames" value="${esc(NA.name)}" placeholder="Escribe o elige una clienta"><datalist id="naNames">${names}</datalist></div>
+    <div class="field"><label class="lbl" for="naPhone">Celular</label><input id="naPhone" inputmode="tel" value="${esc(NA.phone)}" placeholder="310 000 0000"></div>
+    <div class="field full"><span class="lbl">Servicios ${tot?`· <span class="num">${money(tot)}</span>`:''}</span><div class="svc-grid">${SERVICES.map(s=>`<label class="svc"><input type="checkbox" id="na-${s.id}" value="${s.id}" ${NA.services.has(s.id)?'checked':''}><span class="t"><b>${s.cat.startsWith('Combos')?'Combo':s.cat} · ${s.name}</b><small>${fmtMin(s.min)}</small></span><span class="p">${money(s.price)}</span></label>`).join('')}</div></div>
+    <div class="field"><label class="lbl" for="naStaff">Manicurista</label><select id="naStaff"><option value="">Elegir…</option>${STAFF.filter(s=>s.id!=='any').map(s=>`<option value="${s.id}" ${NA.staff===s.id?'selected':''}>${s.name}</option>`).join('')}</select></div>
+    <div class="field"><label class="lbl" for="naDate">Fecha</label><input type="date" id="naDate" value="${NA.date}"></div>
+    <div class="field"><label class="lbl" for="naTime">Hora</label><select id="naTime"><option value="">Elegir…</option>${times}</select></div>
+    <div class="field"><label class="lbl" for="naStatus">Estado</label><select id="naStatus">${Object.keys(STATUS).map(s=>`<option ${s===NA.status?'selected':''}>${s}</option>`).join('')}</select></div>
+    <div class="field full"><label class="lbl" for="naStyle">Estilo de uñas o del servicio</label><input id="naStyle" value="${esc(NA.style)}" placeholder="Ej. almendra, medianas, francesa en nude"></div>
+    <div class="field full"><label class="lbl" for="naNotes">Observaciones</label><textarea id="naNotes" placeholder="Ej. agendó por llamada, trae diseño en foto">${esc(NA.notes)}</textarea></div>
+    <label class="check field full" for="naPromos" style="display:flex"><input type="checkbox" id="naPromos" ${NA.promos?'checked':''}><span>La clienta autorizó guardar su número para promociones, beneficios y recordatorios.</span></label>
+   </div>
+   <div class="err" id="naErr" hidden></div>
+   <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap"><button class="btn" id="naSave">Guardar cita</button><button class="btn ghost" id="naCancel">Cancelar</button></div>
+  </div>`;
+}
+function bindNewAppt(){
+  const open=$('#naOpen');
+  if(open){open.onclick=()=>{NA={name:'',phone:'',promos:false,services:new Set(),staff:'',date:adminDay,time:'',status:'confirmada',style:'',notes:''};renderAgenda();$('#naName').focus()};return}
+  const keep=()=>{NA.name=$('#naName').value;NA.phone=$('#naPhone').value;NA.style=$('#naStyle').value;NA.notes=$('#naNotes').value;NA.promos=$('#naPromos').checked;NA.status=$('#naStatus').value;NA.time=$('#naTime').value};
+  ['naPhone','naStyle','naNotes','naPromos','naStatus','naTime'].forEach(i=>$('#'+i).addEventListener('change',keep));
+  $('#naName').onchange=()=>{keep();const c=clients().find(c=>c.name.toLowerCase()===NA.name.trim().toLowerCase());if(c){NA.phone=c.phone;NA.promos=c.promos;renderAgenda()}};
+  $('#naStaff').onchange=e=>{keep();NA.staff=e.target.value;NA.time='';renderAgenda()};
+  $('#naDate').onchange=e=>{keep();NA.date=e.target.value;NA.time='';renderAgenda()};
+  document.querySelectorAll('[id^="na-"]').forEach(i=>i.onchange=()=>{keep();i.checked?NA.services.add(i.value):NA.services.delete(i.value);renderAgenda()});
+  $('#naCancel').onclick=()=>{NA=null;renderAgenda()};
+  $('#naSave').onclick=()=>{
+    keep();const miss=[];const phone=digits(NA.phone);
+    if(!NA.name.trim())miss.push('nombre');if(phone.length!==10)miss.push('celular de 10 dígitos');if(!NA.services.size)miss.push('un servicio');
+    if(!NA.staff)miss.push('manicurista');if(!NA.date)miss.push('fecha');if(!NA.time)miss.push('hora');
+    if(miss.length){const e=$('#naErr');e.textContent='Falta: '+miss.join(', ')+'.';e.hidden=false;return}
+    DB.appts.push({id:'a'+Date.now(),client:{name:NA.name.trim(),phone,promos:NA.promos},services:[...NA.services],staff:NA.staff,date:NA.date,time:NA.time,status:NA.status,style:NA.style.trim()?{text:NA.style.trim()}:{},notes:NA.notes.trim()});
+    save();adminDay=NA.date;NA=null;renderAdmin();toast('Cita agendada');
+  };
 }
 function clients(){
   const m={};
@@ -553,7 +597,7 @@ function renderAdmin(){
 function renderAgenda(){
   const days=[];for(let i=-2;i<12;i++){const d=addDays(TODAY,i);if(parse(d).getDay()!==0)days.push(d)}
   const list=DB.appts.filter(a=>a.date===adminDay).sort((a,b)=>a.time.localeCompare(b.time));
-  $('#tabBody').innerHTML=`<div class="days" style="margin-bottom:12px">${days.map(d=>{const x=parse(d);const n=DB.appts.filter(a=>a.date===d&&a.status!=='cancelada').length;
+  $('#tabBody').innerHTML=newApptBlock()+`<div class="days" style="margin-bottom:12px">${days.map(d=>{const x=parse(d);const n=DB.appts.filter(a=>a.date===d&&a.status!=='cancelada').length;
     return `<button class="day" data-d="${d}" aria-pressed="${d===adminDay}"><small>${d===TODAY?'Hoy':x.toLocaleDateString('es-CO',{weekday:'short'}).replace('.','')}</small><b>${x.getDate()}</b><small>${n} cita${n===1?'':'s'}</small></button>`}).join('')}</div>
    <div class="panel"><h3 style="font-size:20px;margin-bottom:4px">${fmtDate(adminDay)}</h3>
    ${list.length?list.map(a=>{const tot=a.services.reduce((x,i)=>x+svc(i).price,0);const first=a.client.name.split(' ')[0];
@@ -568,7 +612,8 @@ function renderAgenda(){
        <a class="btn sm ghost" href="${wa(a.client.phone,msg)}" target="_blank" rel="noopener">Confirmar por WhatsApp</a></div></div>`}).join('')
    :`<div class="empty-note" style="margin-top:10px">No hay citas este día.</div>`}</div>
    <p class="note">Al marcar una cita como <b>atendida</b>, la clienta entra al seguimiento de renovación con la fecha de ese día.</p>`;
-  $('#tabBody').querySelectorAll('.day').forEach(b=>b.onclick=()=>{adminDay=b.dataset.d;renderAgenda()});
+  bindNewAppt();
+  $('#tabBody').querySelectorAll('.day').forEach(b=>b.onclick=()=>{adminDay=b.dataset.d;if(NA){NA.date=adminDay;NA.time=''}renderAgenda()});
   $('#tabBody').querySelectorAll('select').forEach(s=>s.onchange=()=>{DB.appts.find(a=>a.id===s.dataset.id).status=s.value;save();renderAdmin();toast('Estado actualizado')});
 }
 function renderRenew(R){
