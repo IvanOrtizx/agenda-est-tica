@@ -2,504 +2,658 @@
 <html lang="es">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<style>body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
-<title>Nácar Nail Studio</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>[hidden]{display:none!important}img{max-width:100%}</style>
+<title>Rosé Nails Studio</title>
+<meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Figtree:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gloock&family=Pinyon+Script&family=Figtree:wght@400;500;600;700&display=swap">
 <style>
-/* Layout: phone-first salon app, sticky header, category chips, bottom nav with 4 views */
+/* Layout: una sola página con dos vistas (Reservar / Panel). Reserva = pasos en columna + resumen fijo a la derecha. */
 :root{
-  --bg:#F6F0EB; --surface:#FFFDFB; --ink:#2C1F1B; --muted:#6E5A52; --line:#E6D9D0;
-  --accent:#8A2C44; --accent-ink:#FFFFFF; --gold:#8A6420; --soft:#F1E3E1; --ok:#2F6B4A; --off:#9C4A2E;
-  --display:"Instrument Serif", "Times New Roman", serif;
-  --body:"Figtree", system-ui, -apple-system, "Segoe UI", sans-serif;
-  color-scheme:light;
+  --bg:#fcf1f4; --surface:#fffafb; --surface-2:#fbe6ec; --ink:#4a1d2d; --muted:#8c5f6f;
+  --rose:#d6457a; --rose-ink:#ffffff; --rose-soft:#f8d6e1; --line:#efcdd8; --gold:#b07d52;
+  --ok:#2f8a5b; --ok-soft:#dcf1e5; --warn:#b5711c; --warn-soft:#fbead2; --bad:#c23a4b; --bad-soft:#fadadf;
+  --f-display:"Gloock", Georgia, "Times New Roman", serif;
+  --f-script:"Pinyon Script", "Brush Script MT", cursive;
+  --f-body:"Figtree", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --r:14px;
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
-  --bg:#1B1412; --surface:#251C19; --ink:#F4EAE4; --muted:#BFA99F; --line:#3A2D29;
-  --accent:#D9718A; --accent-ink:#1B1412; --gold:#D8B46A; --soft:#33221F; --ok:#7CC49C; --off:#E59A7C; color-scheme:dark}}
+  --bg:#1e1217; --surface:#291920; --surface-2:#35202a; --ink:#f8e3ea; --muted:#c398a8;
+  --rose:#f0739e; --rose-ink:#2a0f19; --rose-soft:#4b2534; --line:#4a2e39; --gold:#dcaa7c;
+  --ok:#6fd39c; --ok-soft:#1d3a2b; --warn:#f0b766; --warn-soft:#3d2c15; --bad:#f2808f; --bad-soft:#47202a; color-scheme:dark}}
 :root[data-theme="dark"]{
-  --bg:#1B1412; --surface:#251C19; --ink:#F4EAE4; --muted:#BFA99F; --line:#3A2D29;
-  --accent:#D9718A; --accent-ink:#1B1412; --gold:#D8B46A; --soft:#33221F; --ok:#7CC49C; --off:#E59A7C; color-scheme:dark}
+  --bg:#1e1217; --surface:#291920; --surface-2:#35202a; --ink:#f8e3ea; --muted:#c398a8;
+  --rose:#f0739e; --rose-ink:#2a0f19; --rose-soft:#4b2534; --line:#4a2e39; --gold:#dcaa7c;
+  --ok:#6fd39c; --ok-soft:#1d3a2b; --warn:#f0b766; --warn-soft:#3d2c15; --bad:#f2808f; --bad-soft:#47202a; color-scheme:dark}
+
 *{box-sizing:border-box}
-body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.45}
-.app{max-width:560px;margin:0 auto;padding-inline:16px;padding-block:0 110px}
-button{font:inherit;color:inherit;cursor:pointer}
-button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding-block:16px 10px;display:flex;align-items:center;gap:12px;border-bottom:1px solid var(--line)}
-.mark{width:44px;height:44px;border-radius:50%;background:var(--accent);color:var(--accent-ink);display:grid;place-items:center;font-family:var(--display);font-size:26px;flex:none}
-.brand{min-width:0;flex:1}
-.brand h1{margin:0;font-family:var(--display);font-weight:400;font-size:26px;line-height:1}
-.brand p{margin:3px 0 0;font-size:12.5px;color:var(--muted)}
-.open{font-size:12px;font-weight:600;color:var(--ok);display:flex;align-items:center;gap:5px;white-space:nowrap}
-.open::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor}
-.hero{padding-block:22px 6px}
-.hero h2{margin:0;font-family:var(--display);font-weight:400;font-size:38px;line-height:1.02;text-wrap:balance}
-.hero h2 em{color:var(--accent)}
-.hero p{margin:10px 0 0;color:var(--muted);max-width:44ch}
-.promo{margin-top:16px;background:var(--soft);border-radius:14px;padding:14px 16px;display:flex;gap:12px;align-items:flex-start}
-.promo svg{flex:none;color:var(--accent);margin-top:2px}
-.promo b{display:block;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
-.chips{display:flex;gap:8px;overflow-x:auto;padding-block:16px 6px;scrollbar-width:none;position:sticky;top:calc(env(safe-area-inset-top,0px) + 71px);background:var(--bg);z-index:4}
-.chip{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:9px 16px;font-weight:600;font-size:14px;white-space:nowrap;min-height:40px}
-.chip[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
-section.cat{padding-top:18px}
-.cat-h{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin-bottom:8px}
-.cat-h h3{margin:0;font-family:var(--display);font-weight:400;font-size:30px}
-.cat-h span{font-size:12.5px;color:var(--muted)}
-.svc{display:flex;gap:12px;align-items:center;padding:14px 0;border-top:1px solid var(--line)}
-.svc-info{flex:1;min-width:0}
-.svc-name{font-weight:700;font-size:15.5px}
-.svc-desc{font-size:13px;color:var(--muted);margin-top:2px}
-.svc-meta{display:flex;gap:10px;align-items:center;margin-top:6px;font-size:12.5px;color:var(--muted)}
-.price{font-weight:700;color:var(--gold);font-variant-numeric:tabular-nums;font-size:15px}
-.add{flex:none;min-width:44px;height:44px;border-radius:12px;border:1.5px solid var(--accent);background:transparent;color:var(--accent);display:grid;place-items:center;padding:0 10px;font-weight:700}
-.add.on{background:var(--accent);color:var(--accent-ink)}
-.svc.off{opacity:.55}
-.badge-off{font-size:11px;font-weight:700;color:var(--off);border:1px solid currentColor;border-radius:999px;padding:1px 8px}
-.view-title{font-family:var(--display);font-weight:400;font-size:34px;margin:22px 0 4px;line-height:1.05}
-.view-sub{margin:0 0 16px;color:var(--muted)}
-.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
-@media (min-width:480px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
-.design{border:1px solid var(--line);background:var(--surface);border-radius:16px;padding:10px;text-align:left;display:flex;flex-direction:column;gap:8px}
-.design[aria-pressed="true"]{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent) inset}
-.design canvas{width:100%;aspect-ratio:1/1;border-radius:10px;display:block;max-width:100%}
-.design b{font-size:13.5px}
-.design small{color:var(--muted);font-size:12px;margin-top:-6px}
-.note{font-size:12.5px;color:var(--muted);background:var(--soft);border-radius:10px;padding:10px 12px;margin-top:14px}
-.card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:16px;margin-bottom:14px}
-.card h4{margin:0 0 10px;font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
-.line{display:flex;justify-content:space-between;gap:10px;padding:6px 0;font-variant-numeric:tabular-nums}
-.line .x{border:0;background:none;color:var(--muted);text-decoration:underline;font-size:12.5px;padding:0 0 0 8px;min-height:32px}
-.total{border-top:1px solid var(--line);margin-top:6px;padding-top:10px;font-weight:700;font-size:17px}
-.days{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
-.day{flex:none;width:58px;border:1px solid var(--line);background:var(--bg);border-radius:12px;padding:8px 0;text-align:center;display:flex;flex-direction:column;gap:1px}
-.day b{font-size:20px;font-family:var(--display);font-weight:400}
-.day small{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
-.day[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
-.day[aria-pressed="true"] small{color:var(--bg)}
-.day:disabled{opacity:.4;cursor:not-allowed}
-.hours{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-top:12px}
-.hour{border:1px solid var(--line);background:var(--bg);border-radius:10px;min-height:42px;font-weight:600;font-variant-numeric:tabular-nums}
-.hour[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
-.hour:disabled{text-decoration:line-through;opacity:.45;cursor:not-allowed}
-.seg{display:flex;gap:8px;flex-wrap:wrap}
-label.f{display:block;font-size:13px;font-weight:600;margin:12px 0 6px}
-input.t,textarea.t,select.t{width:100%;border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:10px;padding:11px 12px;font:inherit;min-height:44px}
-textarea.t{min-height:70px;resize:vertical}
-.cta{width:100%;min-height:54px;border:0;border-radius:14px;background:var(--accent);color:var(--accent-ink);font-weight:700;font-size:16px;display:flex;align-items:center;justify-content:center;gap:10px}
-.cta:disabled{opacity:.5;cursor:not-allowed}
-.err{color:var(--off);font-size:13px;margin-top:8px}
-.stamps{display:grid;grid-template-columns:repeat(10,minmax(0,1fr));gap:6px;margin-top:8px}
-.stamp{aspect-ratio:1/1;border-radius:50%;border:1.5px dashed var(--line);max-width:100%}
-.stamp.full{background:var(--accent);border:0}
-.stamp.gift{border-color:var(--gold);border-style:solid}
-.empty{text-align:center;color:var(--muted);padding:26px 10px}
-.row{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:10px 0;border-top:1px solid var(--line)}
-.row:first-of-type{border-top:0}
-.row .who{min-width:0}
-.row .who b{display:block}
-.row .who span{font-size:12.5px;color:var(--muted)}
-.tag{font-size:12px;font-weight:700;border-radius:999px;padding:3px 10px;background:var(--soft);white-space:nowrap}
-.switch{position:relative;width:48px;height:28px;flex:none}
-.switch input{position:absolute;inset:0;opacity:0;margin:0;cursor:pointer}
-.switch span{position:absolute;inset:0;border-radius:999px;background:var(--line);transition:background .15s}
-.switch span::after{content:"";position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:var(--surface);transition:transform .15s}
-.switch input:checked + span{background:var(--ok)}
-.switch input:checked + span::after{transform:translateX(20px)}
-.switch input:focus-visible + span{outline:2px solid var(--accent);outline-offset:2px}
-.sheet-hint{display:flex;gap:10px;align-items:flex-start;font-size:13px;color:var(--muted)}
-nav.bottom{position:fixed;left:0;right:0;bottom:0;z-index:10;background:var(--surface);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom,0px)}
-nav.bottom .in{max-width:560px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr)}
-nav.bottom button{border:0;background:none;min-height:62px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font-size:11.5px;font-weight:600;color:var(--muted);position:relative}
-nav.bottom button[aria-current="page"]{color:var(--accent)}
-.count{position:absolute;top:8px;left:calc(50% + 6px);background:var(--accent);color:var(--accent-ink);border-radius:999px;font-size:11px;min-width:18px;height:18px;display:grid;place-items:center;padding:0 5px}
-.toast{position:fixed;left:50%;bottom:84px;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:999px;font-size:13.5px;font-weight:600;z-index:20;max-width:calc(100% - 32px)}
-.check{display:flex;gap:10px;align-items:flex-start;margin-top:14px;font-size:13.5px;cursor:pointer}
-.check input{width:20px;height:20px;margin:1px 0 0;accent-color:var(--accent);flex:none}
-.check small{display:block;color:var(--muted);font-size:12px;margin-top:2px}
-.sum{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:6px}
-.sum span{font-size:12.5px;font-weight:600;background:var(--soft);border-radius:999px;padding:4px 10px}
-.remind{flex:none;min-height:40px;border-radius:10px;border:1.5px solid var(--accent);background:transparent;color:var(--accent);font-weight:700;font-size:13px;padding:0 12px;display:flex;align-items:center;gap:6px}
-.remind.done{border-color:var(--line);color:var(--muted)}
-.row .who .st{font-weight:700}
-.btn2{min-height:44px;border-radius:12px;border:1.5px solid var(--ink);background:transparent;font-weight:700;padding:0 16px;margin-top:12px}
-.demo-flag{font-size:11.5px;text-align:center;color:var(--muted);padding-top:22px}
-@media (prefers-reduced-motion: reduce){*{transition:none!important}}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.5;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 40px}
+.wrap{max-width:1120px;margin:0 auto}
+h1,h2,h3{font-family:var(--f-display);font-weight:400;text-wrap:balance;margin:0;letter-spacing:.005em}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--rose);outline-offset:2px}
+.eyebrow{text-transform:uppercase;letter-spacing:.22em;font-size:11.5px;font-weight:600;color:var(--rose)}
+.muted{color:var(--muted)}
+.num{font-variant-numeric:tabular-nums}
+
+/* Top bar */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--line);margin-inline:calc(-1 * max(16px,env(safe-area-inset-left,0px)))}
+.top .wrap{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px max(16px,env(safe-area-inset-right,0px)) 12px max(16px,env(safe-area-inset-left,0px));flex-wrap:wrap}
+.brand{display:flex;align-items:baseline;gap:8px}
+.brand b{font-family:var(--f-script);font-size:32px;font-weight:400;color:var(--rose);line-height:1}
+.brand span{font-family:var(--f-display);font-size:17px}
+.switch{display:flex;background:var(--surface-2);border-radius:999px;padding:4px;gap:4px}
+.switch button{border:0;background:transparent;padding:8px 16px;border-radius:999px;font-weight:600;font-size:14px;color:var(--muted)}
+.switch button[aria-pressed="true"]{background:var(--rose);color:var(--rose-ink)}
+
+/* Hero */
+.hero{display:grid;grid-template-columns:1.2fr 1fr;gap:24px;align-items:center;padding-block:36px 24px}
+.hero h1{font-size:clamp(34px,5vw,54px);line-height:1.05}
+.hero h1 em{font-family:var(--f-script);font-style:normal;color:var(--rose);font-size:1.45em;line-height:.8;display:inline-block;padding-right:.08em}
+.hero p{max-width:52ch;color:var(--muted);margin:14px 0 0}
+.perks{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+.perk{display:flex;align-items:center;gap:8px;background:var(--surface);border:1px solid var(--line);padding:8px 12px;border-radius:999px;font-size:13.5px}
+.perk i{width:8px;height:8px;border-radius:50%;background:var(--rose);display:inline-block}
+.bottle{justify-self:center;width:min(260px,100%);aspect-ratio:1;max-width:100%}
+
+/* Booking layout */
+.book{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:24px;align-items:start}
+.step{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:20px;display:grid;gap:14px}
+.steps{display:grid;gap:16px}
+.step-h{display:flex;align-items:baseline;gap:12px}
+.step-h .n{font-family:var(--f-display);color:var(--rose);font-size:22px;line-height:1}
+.step-h h2{font-size:22px}
+.step-h small{margin-left:auto;color:var(--muted);font-size:13px}
+.group-t{font-family:var(--f-display);font-size:16px;color:var(--gold);margin-top:4px}
+.svc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:8px}
+.svc{display:flex;align-items:center;gap:10px;border:1px solid var(--line);background:var(--bg);border-radius:12px;padding:10px 12px;cursor:pointer;min-width:0}
+.svc input{accent-color:var(--rose);width:18px;height:18px;flex:none}
+.svc .t{flex:1;min-width:0}
+.svc .t b{display:block;font-weight:600;font-size:14.5px}
+.svc .t small{color:var(--muted);font-size:12.5px}
+.svc .p{font-weight:600;font-variant-numeric:tabular-nums;font-size:14px}
+.svc:has(input:checked){border-color:var(--rose);background:var(--rose-soft)}
+
+.staff{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:8px}
+.choice{border:1px solid var(--line);background:var(--bg);border-radius:12px;padding:12px;text-align:left;display:flex;gap:10px;align-items:center}
+.choice[aria-pressed="true"]{border-color:var(--rose);background:var(--rose-soft)}
+.av{width:40px;height:40px;border-radius:50%;background:var(--rose-soft);color:var(--rose);display:grid;place-items:center;font-family:var(--f-display);font-size:17px;flex:none;border:1px solid var(--line)}
+.choice[aria-pressed="true"] .av{background:var(--rose);color:var(--rose-ink)}
+.choice b{display:block;font-size:14.5px}
+.choice small{color:var(--muted);font-size:12.5px;line-height:1.3;display:block}
+
+.days{display:flex;gap:8px;overflow-x:auto;padding-bottom:6px;scrollbar-width:thin}
+.day{flex:none;width:64px;border:1px solid var(--line);background:var(--bg);border-radius:12px;padding:8px 4px;text-align:center}
+.day small{display:block;font-size:11px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted)}
+.day b{font-family:var(--f-display);font-size:22px;font-weight:400;display:block;line-height:1.1}
+.day[aria-pressed="true"]{background:var(--rose);border-color:var(--rose);color:var(--rose-ink)}
+.day[aria-pressed="true"] small{color:inherit}
+.slots{display:flex;flex-wrap:wrap;gap:8px}
+.slot{border:1px solid var(--line);background:var(--bg);border-radius:999px;padding:7px 14px;font-variant-numeric:tabular-nums;font-weight:500}
+.slot[aria-pressed="true"]{background:var(--rose);border-color:var(--rose);color:var(--rose-ink)}
+.slot:disabled{opacity:.4;text-decoration:line-through;cursor:not-allowed}
+
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{border:1px solid var(--line);background:var(--bg);border-radius:999px;padding:7px 13px;font-size:14px}
+.chip[aria-pressed="true"]{background:var(--rose-soft);border-color:var(--rose);color:var(--ink);font-weight:600}
+.lbl{font-weight:600;font-size:13.5px;margin-bottom:6px;display:block}
+.style-block{display:grid;gap:14px;border-top:1px dashed var(--line);padding-top:14px}
+.style-block:first-child{border-top:0;padding-top:0}
+.sw{display:flex;flex-wrap:wrap;gap:10px}
+.swatch{display:grid;justify-items:center;gap:4px;border:0;background:transparent;padding:0;font-size:11.5px;color:var(--muted);width:58px}
+.swatch span{width:34px;height:34px;border-radius:50% 50% 45% 45%/60% 60% 40% 40%;border:2px solid var(--surface);box-shadow:0 0 0 1px var(--line)}
+.swatch[aria-pressed="true"] span{box-shadow:0 0 0 2px var(--rose)}
+.swatch[aria-pressed="true"]{color:var(--ink);font-weight:600}
+
+.fields{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.field{display:grid;gap:6px;min-width:0}
+.field.full{grid-column:1/-1}
+.field input,.field textarea,.field select{border:1px solid var(--line);background:var(--bg);border-radius:10px;padding:10px 12px;width:100%}
+.field textarea{min-height:80px;resize:vertical}
+.check{display:flex;gap:10px;align-items:flex-start;font-size:14px;background:var(--surface-2);border-radius:12px;padding:12px}
+.check input{accent-color:var(--rose);width:18px;height:18px;margin-top:2px;flex:none}
+.err{color:var(--bad);font-size:13.5px;font-weight:500}
+.empty-note{font-size:14px;color:var(--muted);background:var(--bg);border:1px dashed var(--line);border-radius:12px;padding:12px}
+
+.summary{position:sticky;top:calc(env(safe-area-inset-top,0px) + 80px);background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:20px;display:grid;gap:12px}
+.summary h3{font-size:22px}
+.sum-row{display:flex;justify-content:space-between;gap:10px;font-size:14px}
+.sum-row span:first-child{color:var(--muted)}
+.sum-row span:last-child{text-align:right;min-width:0}
+.sum-list{display:grid;gap:4px;font-size:14px;border-block:1px solid var(--line);padding-block:10px}
+.sum-list div{display:flex;justify-content:space-between;gap:8px}
+.total{display:flex;justify-content:space-between;align-items:baseline}
+.total b{font-family:var(--f-display);font-size:28px;font-weight:400;font-variant-numeric:tabular-nums}
+.btn{border:0;border-radius:999px;background:var(--rose);color:var(--rose-ink);padding:13px 20px;font-weight:700;font-size:15px;display:inline-flex;align-items:center;justify-content:center;gap:8px;text-decoration:none}
+.btn.ghost{background:transparent;color:var(--rose);border:1px solid var(--rose)}
+.btn.sm{padding:7px 13px;font-size:13px}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+
+.done{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:28px;display:grid;gap:12px;max-width:620px;margin:20px auto}
+.done h2{font-size:30px}
+.done h2 em{font-family:var(--f-script);font-style:normal;color:var(--rose);font-size:1.4em}
+
+.contact{display:flex;flex-wrap:wrap;gap:18px;justify-content:center;margin-top:28px;color:var(--muted);font-size:14px}
+.contact b{color:var(--ink)}
+
+/* Admin */
+.admin-h{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;flex-wrap:wrap;padding-block:28px 16px}
+.admin-h h1{font-size:clamp(28px,4vw,40px)}
+.kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-bottom:18px}
+.kpi{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:14px 16px}
+.kpi small{color:var(--muted);font-size:12.5px;display:block}
+.kpi b{font-family:var(--f-display);font-weight:400;font-size:30px;font-variant-numeric:tabular-nums;line-height:1.2}
+.kpi.alert b{color:var(--bad)}
+.tabs{display:flex;gap:6px;border-bottom:1px solid var(--line);margin-bottom:16px;overflow-x:auto}
+.tabs button{border:0;background:transparent;padding:10px 14px;font-weight:600;color:var(--muted);border-bottom:2px solid transparent;white-space:nowrap}
+.tabs button[aria-selected="true"]{color:var(--rose);border-bottom-color:var(--rose)}
+.tabs .count{background:var(--bad-soft);color:var(--bad);border-radius:999px;padding:1px 7px;font-size:12px;margin-left:4px}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px}
+.appt{display:grid;grid-template-columns:70px minmax(0,1fr) auto;gap:14px;padding:14px 4px;border-bottom:1px solid var(--line);align-items:start}
+.appt:last-child{border-bottom:0}
+.appt .time{font-family:var(--f-display);font-size:20px;font-variant-numeric:tabular-nums;line-height:1.2}
+.appt .who b{font-size:15.5px}
+.appt .who .meta{font-size:13px;color:var(--muted)}
+.appt .style-line{font-size:13px;margin-top:6px;background:var(--surface-2);border-radius:8px;padding:6px 9px}
+.appt .acts{display:grid;gap:6px;justify-items:end}
+.appt select{border:1px solid var(--line);background:var(--bg);border-radius:8px;padding:5px 8px;font-size:13px}
+.pill{display:inline-flex;align-items:center;gap:5px;border-radius:999px;padding:2px 9px;font-size:12px;font-weight:600;white-space:nowrap}
+.pill.ok{background:var(--ok-soft);color:var(--ok)} .pill.warn{background:var(--warn-soft);color:var(--warn)} .pill.bad{background:var(--bad-soft);color:var(--bad)}
+.pill.info{background:var(--rose-soft);color:var(--rose)}
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th{text-align:left;font-size:11.5px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);font-weight:600;padding:8px 10px;border-bottom:1px solid var(--line);white-space:nowrap}
+td{padding:10px;border-bottom:1px solid var(--line);vertical-align:middle}
+tr:last-child td{border-bottom:0}
+td.n{font-variant-numeric:tabular-nums;white-space:nowrap}
+td input[type=number]{width:72px;border:1px solid var(--line);background:var(--bg);border-radius:8px;padding:5px 7px}
+.renew-row{display:grid;grid-template-columns:6px minmax(0,1fr) auto;gap:14px;padding:12px 4px;border-bottom:1px solid var(--line);align-items:center}
+.renew-row:last-child{border-bottom:0}
+.renew-row .bar{align-self:stretch;border-radius:3px}
+.bar.bad{background:var(--bad)} .bar.warn{background:var(--warn)} .bar.ok{background:var(--ok)} .bar.info{background:var(--rose)}
+.renew-row .meta{font-size:13px;color:var(--muted)}
+.note{font-size:13px;color:var(--muted);margin-top:12px}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:999px;font-size:14px;font-weight:600;z-index:50}
+.demo-tag{font-size:12px;color:var(--muted);text-align:center;margin-top:30px}
+
+@media (max-width:860px){
+  .book{grid-template-columns:1fr}
+  .bottle{display:none}
+  .kpis{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media (max-width:520px){
+  .fields{grid-template-columns:1fr}
+  .appt{grid-template-columns:56px minmax(0,1fr)}
+  .appt .acts{grid-column:1/-1;justify-items:start;grid-auto-flow:column;justify-content:start}
+  .renew-row{grid-template-columns:6px minmax(0,1fr)}
+  .renew-row .acts{grid-column:2}
+}
+/* Centrado */
+.hero{grid-template-columns:1fr;justify-items:center;text-align:center;padding-block:28px 24px}
+.hero p{margin-inline:auto}
+.perks{justify-content:center}
+.bottle{order:-1;width:150px}
+.book{grid-template-columns:minmax(0,760px);justify-content:center}
+.summary{position:static;text-align:center}
+.sum-row,.sum-list div,.total{text-align:left}
+.step-h{flex-direction:column;align-items:center;gap:2px;text-align:center}
+.step-h small{margin-left:0}
+.group-t{text-align:center}
+.chips,.slots,.sw,.staff{justify-content:center}
+.days{justify-content:safe center}
+.style-block .lbl,.style-block > div > .lbl{text-align:center}
+.empty-note{text-align:center}
+.admin-h{flex-direction:column;align-items:center;text-align:center}
+.tabs{justify-content:safe center}
+.filters{justify-content:center}
+.panel > h3{text-align:center}
+.done{text-align:center;justify-items:center}
+.done .sum-list{width:100%}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
+</head>
+<body>
 
-<div class="app">
-  <header class="top">
-    <div class="mark" aria-hidden="true">N</div>
-    <div class="brand">
-      <h1>Nácar Nail Studio</h1>
-      <p>Manicura · Pedicura · Diseño</p>
+<header class="top">
+  <div class="wrap">
+    <div class="brand"><b>Rosé</b><span>Nails Studio</span></div>
+    <div class="switch" role="group" aria-label="Vista">
+      <button id="vBook" aria-pressed="true">Reservar cita</button>
+      <button id="vAdmin" aria-pressed="false">Panel administradora</button>
     </div>
-    <span class="open" id="openState">Abierto hoy</span>
-  </header>
+  </div>
+</header>
 
-  <!-- SERVICIOS -->
-  <main id="v-servicios">
-    <div class="hero">
-      <h2>Elige tus servicios y <em>reserva tu cita</em> en un minuto.</h2>
-      <p>Precios siempre actualizados. Tu reserva nos llega directo por WhatsApp y te confirmamos la hora.</p>
-      <div class="promo" id="promoBox">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12v9H4v-9"/><path d="M2 7h20v5H2z"/><path d="M12 21V7"/><path d="M12 7H7.5a2.5 2.5 0 1 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 1 0 0-5C13 2 12 7 12 7z"/></svg>
-        <div><b>Promo del mes</b><span id="promoText"></span></div>
-      </div>
-    </div>
-    <div class="chips" role="group" aria-label="Categorías" id="chips"></div>
-    <div id="cats"></div>
-  </main>
-
-  <!-- DISEÑOS -->
-  <main id="v-disenos" hidden>
-    <h2 class="view-title">Diseños</h2>
-    <p class="view-sub">Toca uno para usarlo como referencia en tu reserva.</p>
-    <div class="grid" id="designs"></div>
-    <p class="note">En la versión final aquí van las fotos reales de los trabajos del salón, y la dueña puede subir nuevas cuando quiera.</p>
-  </main>
-
+<main class="wrap">
   <!-- RESERVA -->
-  <main id="v-reserva" hidden>
-    <h2 class="view-title">Tu reserva</h2>
-    <p class="view-sub">Revisa, elige el día y la hora, y envíala por WhatsApp.</p>
-    <div id="resBody"></div>
-  </main>
+  <section id="viewBook">
+    <div class="hero">
+      <div>
+        <div class="eyebrow">Neiva · Huila</div>
+        <h1>Tu momento de <em>brillar</em><br>Agenda tu cita</h1>
+        <p>Elige tus servicios, tu manicurista de confianza y la hora que te queda bien. Te confirmamos por WhatsApp.</p>
+        <div class="perks"><span class="perk"><i></i>Atención personalizada</span><span class="perk"><i></i>Productos de calidad</span><span class="perk"><i></i>Ambiente cómodo y seguro</span></div>
+      </div>
+      <svg class="bottle" viewBox="0 0 200 200" aria-hidden="true">
+        <ellipse cx="100" cy="176" rx="70" ry="12" fill="var(--rose-soft)"/>
+        <rect x="80" y="20" width="40" height="58" rx="6" fill="var(--gold)"/>
+        <rect x="84" y="24" width="8" height="50" rx="3" fill="var(--surface)" opacity=".35"/>
+        <rect x="58" y="74" width="84" height="100" rx="16" fill="var(--rose)"/>
+        <rect x="66" y="84" width="14" height="78" rx="6" fill="var(--surface)" opacity=".28"/>
+        <path d="M100 146c-14-9-22-17-22-26a10 10 0 0 1 22-5 10 10 0 0 1 22 5c0 9-8 17-22 26z" fill="var(--rose-soft)"/>
+        <path d="M160 40l3 8 8 3-8 3-3 8-3-8-8-3 8-3z" fill="var(--gold)"/>
+        <path d="M34 110l2 6 6 2-6 2-2 6-2-6-6-2 6-2z" fill="var(--gold)"/>
+      </svg>
+    </div>
+
+    <div class="book" id="bookForm">
+      <div class="steps">
+        <div class="step">
+          <div class="step-h"><span class="n">1</span><h2>Servicios</h2><small>Puedes elegir varios</small></div>
+          <div id="svcList" style="display:grid;gap:12px"></div>
+        </div>
+        <div class="step">
+          <div class="step-h"><span class="n">2</span><h2>Manicurista de confianza</h2></div>
+          <div class="staff" id="staffList"></div>
+        </div>
+        <div class="step">
+          <div class="step-h"><span class="n">3</span><h2>Fecha y hora</h2><small>Domingos cerrado</small></div>
+          <div class="days" id="dayList"></div>
+          <div class="slots" id="slotList"></div>
+        </div>
+        <div class="step">
+          <div class="step-h"><span class="n">4</span><h2>Cómo las quieres</h2></div>
+          <div id="styleArea"></div>
+        </div>
+        <div class="step">
+          <div class="step-h"><span class="n">5</span><h2>Tus datos</h2></div>
+          <div class="fields">
+            <div class="field"><label class="lbl" for="fName">Nombre completo</label><input id="fName" autocomplete="name" placeholder="Ej. María Fernanda López"></div>
+            <div class="field"><label class="lbl" for="fPhone">Celular (WhatsApp)</label><input id="fPhone" inputmode="tel" autocomplete="tel" placeholder="310 000 0000"></div>
+            <div class="field full"><label class="lbl" for="fNotes">Observaciones</label><textarea id="fNotes" placeholder="Alergias, uñas débiles o lastimadas, si llegas con esmalte puesto, ideas que traes…"></textarea></div>
+            <label class="check full field" for="fPromos" style="display:flex"><input type="checkbox" id="fPromos"><span>Autorizo que guarden mi número para recibir <b>promociones, beneficios y recordatorios</b> de mis servicios por WhatsApp. Puedo retirar la autorización cuando quiera (Ley 1581 de 2012).</span></label>
+          </div>
+        </div>
+      </div>
+
+      <aside class="summary" aria-live="polite">
+        <div class="eyebrow">Tu cita</div>
+        <h3>Resumen</h3>
+        <div class="sum-list" id="sumList"></div>
+        <div class="sum-row"><span>Manicurista</span><span id="sumStaff">—</span></div>
+        <div class="sum-row"><span>Fecha</span><span id="sumDate">—</span></div>
+        <div class="sum-row"><span>Duración aprox.</span><span id="sumDur" class="num">—</span></div>
+        <div class="total"><span class="muted">Total</span><b id="sumTotal">$0</b></div>
+        <div class="err" id="formErr" hidden></div>
+        <button class="btn" id="confirmBtn">Agendar mi cita</button>
+        <small class="muted" style="font-size:12.5px">El pago se hace en el estudio. Si necesitas cambiar la hora, escríbenos con 3 horas de anticipación.</small>
+      </aside>
+    </div>
+
+    <div class="done" id="doneBox" hidden></div>
+
+    <div class="contact">
+      <span><b>WhatsApp</b> 310 555 0101</span>
+      <span><b>Ubicación</b> Neiva, Huila</span>
+      <span><b>Instagram</b> @rosenails.neiva</span>
+    </div>
+  </section>
 
   <!-- PANEL -->
-  <main id="v-panel" hidden>
-    <h2 class="view-title">Panel del salón</h2>
-    <p class="view-sub">Lo que ve la dueña. En la versión final se maneja desde una hoja de Google Sheets.</p>
-    <div class="card">
-      <h4>Clientas · Por recordar</h4>
-      <div class="sum" id="clientSum"></div>
-      <p style="margin:0 0 6px;font-size:13px;color:var(--muted)">Cada reserva queda guardada. Según el servicio, el sistema calcula cuándo le toca volver. Toca "Recordar" y se abre WhatsApp con el mensaje listo.</p>
-      <div id="clientList"></div>
-      <p class="note" style="margin-top:10px">En la demo, los recordatorios de las clientas de ejemplo llegan a tu número. Las reservas que hagas aquí se suman a la lista con su celular real.</p>
-    </div>
-    <div class="card">
-      <h4>Citas de hoy</h4>
-      <div id="todayList"></div>
-    </div>
-    <div class="card">
-      <h4>Promo del mes</h4>
-      <label class="f" for="promoInput">Texto que ven las clientas</label>
-      <textarea class="t" id="promoInput"></textarea>
-      <p id="promoAud" style="margin:10px 0 0;font-size:13px;color:var(--muted)"></p>
-      <button class="btn2" id="copyPromo">Copiar promo para difusión</button>
-    </div>
-    <div class="card">
-      <h4>Servicios disponibles</h4>
-      <div class="sheet-hint">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex:none;margin-top:1px"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M3 15h18M9 3v18"/></svg>
-        <span>Apaga un servicio y deja de aparecer para reservar. Ideal cuando se acaba un producto o no está la manicurista que lo hace.</span>
+  <section id="viewAdmin" hidden>
+    <div class="admin-h">
+      <div>
+        <div class="eyebrow">Panel de la administradora</div>
+        <h1 id="adminTitle">Hola, Natalia</h1>
       </div>
-      <div id="toggles" style="margin-top:8px"></div>
+      <button class="btn ghost sm" id="resetBtn">Restablecer datos de ejemplo</button>
     </div>
-  </main>
+    <div class="kpis" id="kpis"></div>
+    <div class="tabs" role="tablist">
+      <button role="tab" data-tab="agenda" aria-selected="true">Agenda</button>
+      <button role="tab" data-tab="renew" aria-selected="false">Por renovar <span class="count" id="renewCount">0</span></button>
+      <button role="tab" data-tab="clients" aria-selected="false">Clientas</button>
+      <button role="tab" data-tab="services" aria-selected="false">Servicios y tiempos</button>
+    </div>
+    <div id="tabBody"></div>
+  </section>
 
-  <p class="demo-flag">Demo de muestra · Nombre, horarios y citas son de ejemplo</p>
-</div>
-
-<nav class="bottom" aria-label="Secciones">
-  <div class="in">
-    <button data-v="servicios" aria-current="page">
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg>Servicios</button>
-    <button data-v="disenos">
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 3h6v4a3 3 0 0 1-6 0z"/><path d="M8 11c0 5 1 10 4 10s4-5 4-10"/></svg>Diseños</button>
-    <button data-v="reserva">
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>Reservar<span class="count" id="count" hidden>0</span></button>
-    <button data-v="panel">
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>Salón</button>
-  </div>
-</nav>
-<div class="toast" id="toast" role="status" hidden></div>
+  <p class="demo-tag">Sitio de muestra · los datos de ejemplo se guardan solo en este navegador</p>
+</main>
+<div class="toast" id="toast" hidden></div>
 
 <script>
-const WHATSAPP = "573124502235"; // demo: llega al número de quien muestra la demo
-const CATS = [
-  {id:"manicura", name:"Manicura", items:[
-    ["m-semi","Semipermanente","Esmalte en gel curado en lámpara. Brillo de 2 a 3 semanas.",40000,60],
-    ["m-trad","Tradicional normal","Limpieza, cutícula y esmalte clásico.",20000,45],
-    ["m-rapido","Secado rápido","Esmalte tradicional con fórmula de secado acelerado.",22000,45],
-    ["m-rubber","Base rubber","Base flexible que nivela y fortalece la uña natural.",55000,75],
-    ["m-dipping","Dipping","Polvo sellado sobre la uña. Muy resistente y sin lámpara.",65000,75],
-    ["m-builder","Builder gel","Gel de construcción para dar forma y algo de largo.",60000,90],
-    ["m-soft","Soft gel","Extensiones con tips de gel suave, livianas y naturales.",85000,90],
-    ["m-press","Press On","Uñas prediseñadas a la medida de tus manos.",75000,60],
-    ["m-acrigel","Recubrimiento en acrigel","Capa de acrigel sobre la uña natural para que no se parta.",85000,90]
-  ]},
-  {id:"pedicura", name:"Pedicura", items:[
-    ["p-semi","Semipermanente","Pedicura completa con esmalte en gel.",40000,60],
-    ["p-trad","Tradicional normal","Pedicura completa con esmalte clásico.",20000,50],
-    ["p-rapido","Secado rápido","Pedicura con esmalte de secado acelerado.",22000,50],
-    ["p-jelly","Jelly spa","Baño relajante en gel para los pies. Se suma a tu pedicura.",12000,20]
-  ]},
-  {id:"combos", name:"Combos manos y pies", items:[
-    ["c-semi","Semipermanente","Manicura y pedicura en gel.",75000,110],
-    ["c-trad","Tradicional normal","Manicura y pedicura con esmalte clásico.",36000,90],
-    ["c-rapido","Secado rápido","Manicura y pedicura de secado acelerado.",40000,90]
-  ]}
+// ---------- Datos base ----------
+const SERVICES=[
+ {id:'m-semi',cat:'Manicura',name:'Semipermanente',price:40000,min:60,renew:18,hands:1},
+ {id:'m-trad',cat:'Manicura',name:'Tradicional normal',price:20000,min:45,renew:7,hands:1},
+ {id:'m-secado',cat:'Manicura',name:'Secado rápido',price:22000,min:45,renew:8,hands:1},
+ {id:'m-rubber',cat:'Manicura',name:'Base rubber',price:55000,min:75,renew:21,hands:1},
+ {id:'m-dip',cat:'Manicura',name:'Dipping',price:65000,min:75,renew:21,hands:1},
+ {id:'m-builder',cat:'Manicura',name:'Builder gel',price:60000,min:90,renew:21,hands:1},
+ {id:'m-soft',cat:'Manicura',name:'Soft gel',price:85000,min:120,renew:21,hands:1},
+ {id:'m-press',cat:'Manicura',name:'Press on',price:75000,min:90,renew:14,hands:1},
+ {id:'m-acri',cat:'Manicura',name:'Recubrimiento en acrigel',price:85000,min:120,renew:21,hands:1},
+ {id:'p-semi',cat:'Pedicura',name:'Semipermanente',price:40000,min:60,renew:25,feet:1},
+ {id:'p-trad',cat:'Pedicura',name:'Tradicional normal',price:20000,min:50,renew:12,feet:1},
+ {id:'p-secado',cat:'Pedicura',name:'Secado rápido',price:22000,min:50,renew:12,feet:1},
+ {id:'p-spa',cat:'Pedicura',name:'Gelly spa',price:12000,min:30,renew:30,feet:1,spa:1},
+ {id:'c-semi',cat:'Combos (manos y pies)',name:'Semipermanente',price:75000,min:110,renew:18,hands:1,feet:1},
+ {id:'c-trad',cat:'Combos (manos y pies)',name:'Tradicional normal',price:36000,min:90,renew:8,hands:1,feet:1},
+ {id:'c-secado',cat:'Combos (manos y pies)',name:'Secado rápido',price:40000,min:90,renew:9,hands:1,feet:1},
 ];
-const ALL = {}; CATS.forEach(c=>c.items.forEach(i=>ALL[i[0]]={id:i[0],name:i[1],desc:i[2],price:i[3],min:i[4],cat:c.name}));
-const DESIGNS = [
-  {id:"nude",name:"Nude clásico",tag:"Elegante",base:"#E8C4B0",style:"plain"},
-  {id:"french",name:"Francés",tag:"Atemporal",base:"#F3D9D0",style:"french"},
-  {id:"vino",name:"Vino tinto",tag:"Temporada",base:"#6E1A2D",style:"plain"},
-  {id:"chrome",name:"Efecto chrome",tag:"Tendencia",base:"#C9C3D6",style:"chrome"},
-  {id:"glitter",name:"Degradé glitter",tag:"Fiesta",base:"#F2C9D3",style:"glitter"},
-  {id:"puntos",name:"Puntos minimal",tag:"Delicado",base:"#F7EDE6",style:"dots"}
+const STAFF=[
+ {id:'vale',name:'Valentina Rojas',spec:'Soft gel, builder y diseños a mano alzada'},
+ {id:'dani',name:'Daniela Perdomo',spec:'Semipermanente y francesa'},
+ {id:'karen',name:'Karen Cuéllar',spec:'Pedicura spa y acrigel'},
+ {id:'any',name:'Sin preferencia',spec:'La primera disponible'},
 ];
-const SLOTS = ["8:00","9:30","11:00","1:00","2:30","4:00","5:30","7:00"];
-const PROS = ["Sin preferencia","Laura","Daniela","Valentina"];
+const SLOTS=['08:00','09:30','11:00','13:00','14:30','16:00','17:30'];
+const SHAPES=['Almendra','Cuadrada','Ovalada','Coffin (bailarina)','Stiletto','Redonda'];
+const LENGTHS=['Cortas','Medianas','Largas','Extra largas'];
+const FINISH=['Color entero','Francesa','Baby boomer','Diseño a mano','Glitter / brillos','Cromado','Efecto ojo de gato','Piedras / apliques'];
+const FEET=['Color entero','Francesa','Un dedo decorado','Natural (solo brillo)'];
+const COLORS=[['Nude','#e8c3b0'],['Rosa bebé','#f6c1cf'],['Fucsia','#d63a7a'],['Rojo','#b8162b'],['Vino','#6b1a2b'],['Lila','#c6a8e0'],['Blanco','#f7f4f2'],['Negro','#222'],['Dorado','#c9a15a'],['Sorpréndeme','conic-gradient(#f6c1cf,#c6a8e0,#e8c3b0,#d63a7a,#f6c1cf)']];
 
-const store = {
-  get(k,d){try{const v=localStorage.getItem("nacar-"+k);return v?JSON.parse(v):d}catch(e){return d}},
-  set(k,v){try{localStorage.setItem("nacar-"+k,JSON.stringify(v))}catch(e){}}
+// ---------- Utilidades ----------
+const $=s=>document.querySelector(s);
+const pad=n=>String(n).padStart(2,'0');
+const iso=d=>`${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
+const parse=s=>{const[y,m,d]=s.split('-').map(Number);return new Date(y,m-1,d)};
+const addDays=(s,n)=>{const d=parse(s);d.setDate(d.getDate()+n);return iso(d)};
+const diff=(a,b)=>Math.round((parse(b)-parse(a))/864e5);
+const TODAY=iso(new Date());
+const money=n=>'$'+n.toLocaleString('es-CO');
+const fmtDate=s=>parse(s).toLocaleDateString('es-CO',{weekday:'long',day:'numeric',month:'long'});
+const shortDate=s=>parse(s).toLocaleDateString('es-CO',{day:'numeric',month:'short'});
+const svc=id=>SERVICES.find(s=>s.id===id);
+const staffName=id=>(STAFF.find(s=>s.id===id)||{}).name||'—';
+const svcLabel=id=>{const s=svc(id);return (s.cat.startsWith('Combos')?'Combo ':s.cat+' ')+s.name.toLowerCase()};
+const fmtMin=m=>m>=60?`${Math.floor(m/60)} h${m%60?' '+m%60+' min':''}`:`${m} min`;
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const digits=s=>String(s).replace(/\D/g,'');
+function toast(t){const el=$('#toast');el.textContent=t;el.hidden=false;clearTimeout(toast.t);toast.t=setTimeout(()=>el.hidden=true,2200)}
+
+// ---------- Datos de ejemplo ----------
+function seed(){
+  const C={
+    laura:['Laura Méndez','3102345678',true], camila:['Camila Trujillo','3154567890',true], paola:['Paola Andrade','3209876543',false],
+    sofia:['Sofía Cabrera','3112223344',true], juli:['Juliana Vargas','3186655443',true], nati:['Natalia Ospina','3001112233',true],
+    mari:['Mariana Polanía','3145556677',true], andrea:['Andrea Silva','3167778899',false], valeria:['Valeria Perdomo','3193334455',true],
+    diana:['Diana Charry','3128889900',true], tati:['Tatiana Rojas','3171234567',true], isa:['Isabel Motta','3138765432',false],
+    dani:['Daniela Rivas','3052223311',true], luisa:['Luisa Quintero','3014445566',true]};
+  const hs=(shape,len,finish,color)=>({hands:{shape,len,finish,color}});
+  const rows=[
+    ['laura',['m-semi'],'dani',-40,'09:30','atendida',hs('Almendra','Medianas','Color entero','Nude')],
+    ['camila',['m-soft'],'vale',-50,'11:00','atendida',hs('Coffin (bailarina)','Largas','Diseño a mano','Rosa bebé')],
+    ['laura',['m-semi'],'dani',-20,'09:30','atendida',hs('Almendra','Medianas','Francesa','Nude')],
+    ['camila',['m-soft'],'vale',-24,'11:00','atendida',hs('Coffin (bailarina)','Largas','Cromado','Lila')],
+    ['paola',['c-semi'],'dani',-16,'14:30','atendida',{...hs('Ovalada','Cortas','Color entero','Rojo'),feet:{finish:'Color entero',color:'Rojo'}}],
+    ['sofia',['m-trad','p-trad'],'karen',-9,'16:00','atendida',{...hs('Cuadrada','Cortas','Color entero','Fucsia'),feet:{finish:'Un dedo decorado',color:'Fucsia'}}],
+    ['juli',['m-builder'],'vale',-12,'08:00','atendida',hs('Almendra','Largas','Baby boomer','Nude')],
+    ['nati',['p-semi','p-spa'],'karen',-25,'13:00','atendida',{feet:{finish:'Francesa',color:'Blanco'}}],
+    ['mari',['m-dip'],'vale',-30,'17:30','atendida',hs('Stiletto','Largas','Glitter / brillos','Dorado')],
+    ['andrea',['m-semi'],'dani',-5,'11:00','atendida',hs('Redonda','Cortas','Color entero','Vino')],
+    ['valeria',['m-press'],'vale',-13,'14:30','atendida',hs('Coffin (bailarina)','Extra largas','Piedras / apliques','Negro')],
+    ['diana',['c-trad'],'karen',-3,'09:30','atendida',{...hs('Ovalada','Cortas','Color entero','Rosa bebé'),feet:{finish:'Color entero',color:'Rosa bebé'}}],
+    ['tati',['m-semi'],'dani',0,'09:30','confirmada',hs('Almendra','Medianas','Efecto ojo de gato','Vino')],
+    ['luisa',['c-semi'],'karen',0,'16:00','confirmada',{...hs('Cuadrada','Cortas','Francesa','Nude'),feet:{finish:'Francesa',color:'Blanco'}}],
+    ['isa',['m-soft'],'vale',0,'14:30','pendiente',hs('Almendra','Largas','Diseño a mano','Sorpréndeme')],
+    ['camila',['m-soft'],'vale',1,'11:00','pendiente',hs('Coffin (bailarina)','Largas','Francesa','Rosa bebé')],
+    ['dani',['p-semi','p-spa'],'karen',2,'16:00','pendiente',{feet:{finish:'Un dedo decorado',color:'Lila'}}],
+  ];
+  return {appts:rows.map((r,i)=>{const c=C[r[0]];return {id:'a'+i,client:{name:c[0],phone:c[1],promos:c[2]},services:r[1],staff:r[2],date:addDays(TODAY,r[3]),time:r[4],status:r[5],style:r[6],notes:i===4?'Uñas un poco débiles, prefiere poco limado.':i===14?'Trae foto de referencia en el celular.':''}}),
+          renewOverride:{}};
+}
+let DB;
+function load(){try{const s=JSON.parse(localStorage.getItem('rose-nails-demo'));if(s&&s.appts)return s}catch(e){}return seed()}
+function save(){try{localStorage.setItem('rose-nails-demo',JSON.stringify(DB))}catch(e){}}
+DB=load();
+const renewDays=id=>DB.renewOverride[id]??svc(id).renew;
+
+// ---------- Vistas ----------
+function setView(v){
+  $('#viewBook').hidden=v!=='book';$('#viewAdmin').hidden=v!=='admin';
+  $('#vBook').setAttribute('aria-pressed',v==='book');$('#vAdmin').setAttribute('aria-pressed',v==='admin');
+  if(v==='admin')renderAdmin();
+  window.scrollTo({top:0});
+}
+$('#vBook').onclick=()=>setView('book');
+$('#vAdmin').onclick=()=>setView('admin');
+
+// ---------- Reserva ----------
+const B={services:new Set(),staff:null,date:null,time:null,hands:{},feet:{}};
+function renderServices(){
+  const cats=[...new Set(SERVICES.map(s=>s.cat))];
+  $('#svcList').innerHTML=cats.map(c=>`<div><div class="group-t">${c}</div><div class="svc-grid">${
+    SERVICES.filter(s=>s.cat===c).map(s=>`<label class="svc"><input type="checkbox" id="s-${s.id}" value="${s.id}" ${B.services.has(s.id)?'checked':''}>
+      <span class="t"><b>${s.name}</b><small>${fmtMin(s.min)} · dura ~${s.renew} días</small></span><span class="p">${money(s.price)}</span></label>`).join('')}</div></div>`).join('');
+  $('#svcList').querySelectorAll('input').forEach(i=>i.onchange=()=>{i.checked?B.services.add(i.value):B.services.delete(i.value);renderStyle();renderSlots();renderSummary()});
+}
+function renderStaff(){
+  $('#staffList').innerHTML=STAFF.map(s=>`<button class="choice" data-id="${s.id}" aria-pressed="${B.staff===s.id}"><span class="av">${s.id==='any'?'✦':s.name[0]}</span><span><b>${s.name}</b><small>${s.spec}</small></span></button>`).join('');
+  $('#staffList').querySelectorAll('button').forEach(b=>b.onclick=()=>{B.staff=b.dataset.id;B.time=null;renderStaff();renderSlots();renderSummary()});
+}
+function bookDays(){const out=[];let d=TODAY;while(out.length<14){if(parse(d).getDay()!==0)out.push(d);d=addDays(d,1)}return out}
+function renderDays(){
+  $('#dayList').innerHTML=bookDays().map(d=>{const x=parse(d);return `<button class="day" data-d="${d}" aria-pressed="${B.date===d}"><small>${x.toLocaleDateString('es-CO',{weekday:'short'}).replace('.','')}</small><b>${x.getDate()}</b><small>${x.toLocaleDateString('es-CO',{month:'short'}).replace('.','')}</small></button>`}).join('');
+  $('#dayList').querySelectorAll('button').forEach(b=>b.onclick=()=>{B.date=b.dataset.d;B.time=null;renderDays();renderSlots();renderSummary()});
+}
+function busy(staff,date,time){return DB.appts.some(a=>a.staff===staff&&a.date===date&&a.time===time&&a.status!=='cancelada')}
+function slotTaken(t){
+  if(!B.staff||!B.date)return false;
+  if(B.date===TODAY){const now=new Date();const[h,m]=t.split(':').map(Number);if(h*60+m<=now.getHours()*60+now.getMinutes()+30)return true}
+  if(B.staff==='any')return STAFF.filter(s=>s.id!=='any').every(s=>busy(s.id,B.date,t));
+  return busy(B.staff,B.date,t);
+}
+function renderSlots(){
+  if(!B.staff||!B.date){$('#slotList').innerHTML=`<div class="empty-note">Elige manicurista y día para ver las horas libres.</div>`;return}
+  $('#slotList').innerHTML=SLOTS.map(t=>`<button class="slot" data-t="${t}" aria-pressed="${B.time===t}" ${slotTaken(t)?'disabled':''}>${t}</button>`).join('');
+  $('#slotList').querySelectorAll('button').forEach(b=>b.onclick=()=>{B.time=b.dataset.t;renderSlots();renderSummary()});
+}
+function chipRow(key,part,opts){return `<div class="chips">${opts.map(o=>`<button class="chip" data-part="${part}" data-k="${key}" data-v="${esc(o)}" aria-pressed="${B[part][key]===o}">${o}</button>`).join('')}</div>`}
+function swatchRow(part){return `<div class="sw">${COLORS.map(([n,c])=>`<button class="swatch" data-part="${part}" data-k="color" data-v="${n}" aria-pressed="${B[part].color===n}"><span style="background:${c}"></span>${n}</button>`).join('')}</div>`}
+function renderStyle(){
+  const sel=[...B.services].map(svc);
+  const hands=sel.some(s=>s.hands), feet=sel.some(s=>s.feet&&!s.spa), spaOnly=sel.length&&sel.every(s=>s.spa);
+  let h='';
+  if(!sel.length)h=`<div class="empty-note">Primero elige un servicio. Aquí te preguntaremos lo que aplique: forma y diseño si son uñas de manos, color y estilo si es pedicura.</div>`;
+  if(hands)h+=`<div class="style-block"><div class="group-t">Uñas de las manos</div>
+    <div><span class="lbl">Forma</span>${chipRow('shape','hands',SHAPES)}</div>
+    <div><span class="lbl">Largo</span>${chipRow('len','hands',LENGTHS)}</div>
+    <div><span class="lbl">Acabado o diseño</span>${chipRow('finish','hands',FINISH)}</div>
+    <div><span class="lbl">Tono</span>${swatchRow('hands')}</div></div>`;
+  if(feet)h+=`<div class="style-block"><div class="group-t">Pies</div>
+    <div><span class="lbl">Estilo</span>${chipRow('finish','feet',FEET)}</div>
+    <div><span class="lbl">Tono</span>${swatchRow('feet')}</div></div>`;
+  if(spaOnly)h+=`<div class="style-block"><div class="group-t">Gelly spa</div><div class="empty-note">Este servicio no lleva esmalte. Si quieres color en los pies, agrega una pedicura.</div></div>`;
+  $('#styleArea').innerHTML=h;
+  $('#styleArea').querySelectorAll('[data-part]').forEach(b=>b.onclick=()=>{const p=b.dataset.part,k=b.dataset.k;B[p][k]=B[p][k]===b.dataset.v?undefined:b.dataset.v;renderStyle()});
+}
+function renderSummary(){
+  const sel=[...B.services].map(svc);
+  $('#sumList').innerHTML=sel.length?sel.map(s=>`<div><span>${svcLabel(s.id)}</span><span class="num">${money(s.price)}</span></div>`).join(''):'<div class="muted">Aún no eliges servicios</div>';
+  $('#sumStaff').textContent=B.staff?staffName(B.staff):'—';
+  $('#sumDate').textContent=B.date?fmtDate(B.date)+(B.time?' · '+B.time:''):'—';
+  const min=sel.reduce((a,s)=>a+s.min,0);$('#sumDur').textContent=min?fmtMin(min):'—';
+  $('#sumTotal').textContent=money(sel.reduce((a,s)=>a+s.price,0));
+}
+$('#confirmBtn').onclick=()=>{
+  const name=$('#fName').value.trim(),phone=digits($('#fPhone').value);
+  const miss=[];
+  if(!B.services.size)miss.push('un servicio');if(!B.staff)miss.push('la manicurista');if(!B.date||!B.time)miss.push('fecha y hora');
+  if(!name)miss.push('tu nombre');if(phone.length!==10)miss.push('un celular de 10 dígitos');
+  const e=$('#formErr');if(miss.length){e.textContent='Falta: '+miss.join(', ')+'.';e.hidden=false;return}e.hidden=true;
+  let staff=B.staff;if(staff==='any')staff=STAFF.find(s=>s.id!=='any'&&!busy(s.id,B.date,B.time)).id;
+  const sel=[...B.services];const style={};
+  if(sel.some(i=>svc(i).hands))style.hands={...B.hands};if(sel.some(i=>svc(i).feet&&!svc(i).spa))style.feet={...B.feet};
+  const a={id:'a'+Date.now(),client:{name,phone,promos:$('#fPromos').checked},services:sel,staff,date:B.date,time:B.time,status:'pendiente',style,notes:$('#fNotes').value.trim()};
+  DB.appts.push(a);save();
+  const total=sel.reduce((x,i)=>x+svc(i).price,0);
+  $('#bookForm').hidden=true;const d=$('#doneBox');d.hidden=false;
+  d.innerHTML=`<div class="eyebrow">Cita agendada</div><h2>¡Lista para <em>brillar</em>, ${esc(name.split(' ')[0])}!</h2>
+   <p>Te esperamos el <b>${fmtDate(a.date)}</b> a las <b class="num">${a.time}</b> con <b>${staffName(staff)}</b>.</p>
+   <div class="sum-list">${sel.map(i=>`<div><span>${svcLabel(i)}</span><span class="num">${money(svc(i).price)}</span></div>`).join('')}<div><b>Total</b><b class="num">${money(total)}</b></div></div>
+   <p class="muted" style="margin:0">Te escribiremos por WhatsApp para confirmar. Puedes ver cómo le aparece a la administradora en el panel.</p>
+   <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn" id="seeAdmin">Ver en el panel</button><button class="btn ghost" id="newBook">Agendar otra cita</button></div>`;
+  $('#seeAdmin').onclick=()=>{adminDay=a.date;tab='agenda';setView('admin')};
+  $('#newBook').onclick=()=>{B.services.clear();B.staff=B.date=B.time=null;B.hands={};B.feet={};['fName','fPhone','fNotes'].forEach(i=>$('#'+i).value='');$('#fPromos').checked=false;
+    d.hidden=true;$('#bookForm').hidden=false;initBook()};
+  window.scrollTo({top:d.offsetTop-90,behavior:'smooth'});
 };
-let state = {
-  cart: store.get("cart",["m-semi"]),
-  design: store.get("design","french"),
-  off: store.get("off",["m-press"]),
-  promo: store.get("promo","Los martes, Jelly spa gratis con tu pedicura semipermanente."),
-  day: null, slot: null, pro: "Sin preferencia",
-  name: store.get("name",""), phone: store.get("phone",""), notes:"", consent:false
-};
-/* Días para volver según el servicio (se ajusta con la dueña) */
-const RETURN = {"m-semi":21,"m-trad":10,"m-rapido":10,"m-rubber":21,"m-dipping":28,"m-builder":21,"m-soft":21,"m-press":21,"m-acrigel":21,
-  "p-semi":28,"p-trad":21,"p-rapido":21,"p-jelly":28,"c-semi":21,"c-trad":10,"c-rapido":10};
-const DAY = 864e5;
-const isoDaysAgo = n=>{const d=new Date();d.setHours(12,0,0,0);d.setDate(d.getDate()-n);return d.toISOString().slice(0,10)};
-const SAMPLE_CLIENTS = [
-  {name:"Paula Ríos",phone:"",services:["m-soft"],date:isoDaysAgo(25),consent:true,sample:true},
-  {name:"Mariana Gómez",phone:"",services:["c-trad"],date:isoDaysAgo(12),consent:true,sample:true},
-  {name:"Carolina Pérez",phone:"",services:["m-semi"],date:isoDaysAgo(21),consent:true,sample:true},
-  {name:"Natalia Cruz",phone:"",services:["p-semi","p-jelly"],date:isoDaysAgo(26),consent:false,sample:true},
-  {name:"Sofía Lozano",phone:"",services:["m-dipping"],date:isoDaysAgo(20),consent:true,sample:true},
-  {name:"Daniela Vargas",phone:"",services:["m-trad"],date:isoDaysAgo(3),consent:true,sample:true}
-];
-function clients(){return [...store.get("clients",[]),...SAMPLE_CLIENTS]}
-function dueInfo(c){
-  const days=Math.min(...c.services.map(id=>RETURN[id]||21));
-  const due=new Date(c.date+"T12:00:00").getTime()+days*DAY;
-  const today=new Date();today.setHours(12,0,0,0);
-  return {days,diff:Math.round((due-today.getTime())/DAY)};
-}
-const $ = s=>document.querySelector(s);
-const money = n=>"$"+n.toLocaleString("es-CO").replace(/,/g,".");
-const esc = s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
-const dur = m=>m>=60?(Math.floor(m/60)+" h"+(m%60?" "+m%60+" min":"")):m+" min";
-function toast(t){const el=$("#toast");el.textContent=t;el.hidden=false;clearTimeout(toast.t);toast.t=setTimeout(()=>el.hidden=true,1800)}
-function save(){store.set("cart",state.cart);store.set("design",state.design);store.set("off",state.off);store.set("promo",state.promo)}
+function initBook(){renderServices();renderStaff();renderDays();renderSlots();renderStyle();renderSummary()}
 
-/* ---------- Servicios ---------- */
-function renderChips(){
-  $("#chips").innerHTML = CATS.map((c,i)=>`<button class="chip" data-cat="${c.id}" aria-pressed="${i===0}">${c.name}</button>`).join("");
+// ---------- Panel ----------
+let tab='agenda',adminDay=TODAY,renewFilter='todas';
+const STATUS={pendiente:'warn',confirmada:'info',atendida:'ok',cancelada:'bad'};
+function wa(phone,text){return `https://wa.me/57${digits(phone)}?text=${encodeURIComponent(text)}`}
+function styleText(st){
+  const out=[];if(st&&st.hands){const h=st.hands;const p=[h.shape,h.len,h.finish,h.color].filter(Boolean);out.push('Manos: '+(p.join(' · ')||'sin preferencia'))}
+  if(st&&st.feet){const f=st.feet;const p=[f.finish,f.color].filter(Boolean);out.push('Pies: '+(p.join(' · ')||'sin preferencia'))}
+  if(st&&st.text)out.push(st.text);
+  return out.join('  |  ');
 }
-function renderCats(){
-  $("#promoText").textContent = state.promo;
-  $("#promoBox").hidden = !state.promo.trim();
-  $("#cats").innerHTML = CATS.map(c=>`
-    <section class="cat" id="cat-${c.id}">
-      <div class="cat-h"><h3>${c.name}</h3><span>${c.items.length} servicios</span></div>
-      ${c.items.map(([id])=>{const s=ALL[id];const off=state.off.includes(id);const on=state.cart.includes(id);
-        return `<div class="svc${off?" off":""}">
-          <div class="svc-info">
-            <div class="svc-name">${s.name}</div>
-            <div class="svc-desc">${s.desc}</div>
-            <div class="svc-meta"><span class="price">${money(s.price)}</span><span>aprox. ${dur(s.min)}</span>${off?'<span class="badge-off">No disponible hoy</span>':""}</div>
-          </div>
-          ${off?"":`<button class="add${on?" on":""}" data-add="${id}" aria-label="${on?"Quitar":"Agregar"} ${s.name}" aria-pressed="${on}">${on?'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5L20 7"/></svg>':'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>'}</button>`}
-        </div>`}).join("")}
-    </section>`).join("");
-  updateCount();
+let NA=null;
+function newApptBlock(){
+  if(!NA)return `<div style="display:flex;justify-content:center;margin-bottom:14px"><button class="btn" id="naOpen">+ Agendar cita</button></div>`;
+  const names=clients().map(c=>`<option value="${esc(c.name)}"></option>`).join('');
+  const times=SLOTS.map(t=>{const tk=NA.staff&&NA.date&&busy(NA.staff,NA.date,t);return `<option value="${t}" ${tk?'disabled':''} ${NA.time===t?'selected':''}>${t}${tk?' (ocupada)':''}</option>`}).join('');
+  const tot=[...NA.services].reduce((x,i)=>x+svc(i).price,0);
+  return `<div class="panel" style="margin-bottom:14px;display:grid;gap:14px">
+   <h3 style="font-size:20px;text-align:center">Nueva cita</h3>
+   <div class="fields">
+    <div class="field"><label class="lbl" for="naName">Clienta</label><input id="naName" list="naNames" value="${esc(NA.name)}" placeholder="Escribe o elige una clienta"><datalist id="naNames">${names}</datalist></div>
+    <div class="field"><label class="lbl" for="naPhone">Celular</label><input id="naPhone" inputmode="tel" value="${esc(NA.phone)}" placeholder="310 000 0000"></div>
+    <div class="field full"><span class="lbl">Servicios ${tot?`· <span class="num">${money(tot)}</span>`:''}</span><div class="svc-grid">${SERVICES.map(s=>`<label class="svc"><input type="checkbox" id="na-${s.id}" value="${s.id}" ${NA.services.has(s.id)?'checked':''}><span class="t"><b>${s.cat.startsWith('Combos')?'Combo':s.cat} · ${s.name}</b><small>${fmtMin(s.min)}</small></span><span class="p">${money(s.price)}</span></label>`).join('')}</div></div>
+    <div class="field"><label class="lbl" for="naStaff">Manicurista</label><select id="naStaff"><option value="">Elegir…</option>${STAFF.filter(s=>s.id!=='any').map(s=>`<option value="${s.id}" ${NA.staff===s.id?'selected':''}>${s.name}</option>`).join('')}</select></div>
+    <div class="field"><label class="lbl" for="naDate">Fecha</label><input type="date" id="naDate" value="${NA.date}"></div>
+    <div class="field"><label class="lbl" for="naTime">Hora</label><select id="naTime"><option value="">Elegir…</option>${times}</select></div>
+    <div class="field"><label class="lbl" for="naStatus">Estado</label><select id="naStatus">${Object.keys(STATUS).map(s=>`<option ${s===NA.status?'selected':''}>${s}</option>`).join('')}</select></div>
+    <div class="field full"><label class="lbl" for="naStyle">Estilo de uñas o del servicio</label><input id="naStyle" value="${esc(NA.style)}" placeholder="Ej. almendra, medianas, francesa en nude"></div>
+    <div class="field full"><label class="lbl" for="naNotes">Observaciones</label><textarea id="naNotes" placeholder="Ej. agendó por llamada, trae diseño en foto">${esc(NA.notes)}</textarea></div>
+    <label class="check field full" for="naPromos" style="display:flex"><input type="checkbox" id="naPromos" ${NA.promos?'checked':''}><span>La clienta autorizó guardar su número para promociones, beneficios y recordatorios.</span></label>
+   </div>
+   <div class="err" id="naErr" hidden></div>
+   <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap"><button class="btn" id="naSave">Guardar cita</button><button class="btn ghost" id="naCancel">Cancelar</button></div>
+  </div>`;
 }
-function updateCount(){const n=state.cart.length;const c=$("#count");c.textContent=n;c.hidden=!n}
+function bindNewAppt(){
+  const open=$('#naOpen');
+  if(open){open.onclick=()=>{NA={name:'',phone:'',promos:false,services:new Set(),staff:'',date:adminDay,time:'',status:'confirmada',style:'',notes:''};renderAgenda();$('#naName').focus()};return}
+  const keep=()=>{NA.name=$('#naName').value;NA.phone=$('#naPhone').value;NA.style=$('#naStyle').value;NA.notes=$('#naNotes').value;NA.promos=$('#naPromos').checked;NA.status=$('#naStatus').value;NA.time=$('#naTime').value};
+  ['naPhone','naStyle','naNotes','naPromos','naStatus','naTime'].forEach(i=>$('#'+i).addEventListener('change',keep));
+  $('#naName').onchange=()=>{keep();const c=clients().find(c=>c.name.toLowerCase()===NA.name.trim().toLowerCase());if(c){NA.phone=c.phone;NA.promos=c.promos;renderAgenda()}};
+  $('#naStaff').onchange=e=>{keep();NA.staff=e.target.value;NA.time='';renderAgenda()};
+  $('#naDate').onchange=e=>{keep();NA.date=e.target.value;NA.time='';renderAgenda()};
+  document.querySelectorAll('[id^="na-"]').forEach(i=>i.onchange=()=>{keep();i.checked?NA.services.add(i.value):NA.services.delete(i.value);renderAgenda()});
+  $('#naCancel').onclick=()=>{NA=null;renderAgenda()};
+  $('#naSave').onclick=()=>{
+    keep();const miss=[];const phone=digits(NA.phone);
+    if(!NA.name.trim())miss.push('nombre');if(phone.length!==10)miss.push('celular de 10 dígitos');if(!NA.services.size)miss.push('un servicio');
+    if(!NA.staff)miss.push('manicurista');if(!NA.date)miss.push('fecha');if(!NA.time)miss.push('hora');
+    if(miss.length){const e=$('#naErr');e.textContent='Falta: '+miss.join(', ')+'.';e.hidden=false;return}
+    DB.appts.push({id:'a'+Date.now(),client:{name:NA.name.trim(),phone,promos:NA.promos},services:[...NA.services],staff:NA.staff,date:NA.date,time:NA.time,status:NA.status,style:NA.style.trim()?{text:NA.style.trim()}:{},notes:NA.notes.trim()});
+    save();adminDay=NA.date;NA=null;renderAdmin();toast('Cita agendada');
+  };
+}
+function clients(){
+  const m={};
+  DB.appts.forEach(a=>{const k=digits(a.client.phone);(m[k]??={name:a.client.name,phone:a.client.phone,promos:a.client.promos,appts:[]}).appts.push(a);
+    if(a.id>(m[k].lastId||'')){m[k].promos=a.client.promos;m[k].lastId=a.id}});
+  return Object.values(m);
+}
+function renewals(){
+  return clients().map(c=>{
+    const done=c.appts.filter(a=>a.status==='atendida').sort((a,b)=>b.date.localeCompare(a.date));
+    if(!done.length)return null;
+    const last=done[0];
+    const items=last.services.map(id=>({id,due:addDays(last.date,renewDays(id))})).sort((a,b)=>a.due.localeCompare(b.due));
+    const next=items[0];const days=diff(TODAY,next.due);
+    const booked=c.appts.find(a=>a.date>=TODAY&&a.status!=='cancelada'&&a.status!=='atendida');
+    const level=booked?'info':days<0?'bad':days<=5?'warn':'ok';
+    return {c,last,next,days,booked,level};
+  }).filter(Boolean).sort((a,b)=>a.days-b.days);
+}
+function renderAdmin(){
+  const today=DB.appts.filter(a=>a.date===TODAY&&a.status!=='cancelada');
+  const wkEnd=addDays(TODAY,6);
+  const week=DB.appts.filter(a=>a.date>=TODAY&&a.date<=wkEnd&&a.status!=='cancelada').reduce((x,a)=>x+a.services.reduce((y,i)=>y+svc(i).price,0),0);
+  const R=renewals();const due=R.filter(r=>r.level==='bad'||r.level==='warn').length;
+  const cl=clients();
+  $('#kpis').innerHTML=`<div class="kpi"><small>Citas hoy</small><b>${today.length}</b></div>
+    <div class="kpi"><small>Ingresos agendados · 7 días</small><b>${money(week)}</b></div>
+    <div class="kpi ${due?'alert':''}"><small>Clientas por renovar</small><b>${due}</b></div>
+    <div class="kpi"><small>Autorizan promociones</small><b>${cl.filter(c=>c.promos).length}<span class="muted" style="font-size:16px"> / ${cl.length}</span></b></div>`;
+  $('#renewCount').textContent=due;$('#renewCount').hidden=!due;
+  document.querySelectorAll('.tabs button').forEach(b=>{b.setAttribute('aria-selected',b.dataset.tab===tab);b.onclick=()=>{tab=b.dataset.tab;renderAdmin()}});
+  ({agenda:renderAgenda,renew:()=>renderRenew(R),clients:()=>renderClients(cl),services:renderSvcTable})[tab]();
+}
+function renderAgenda(){
+  const days=[];for(let i=-2;i<12;i++){const d=addDays(TODAY,i);if(parse(d).getDay()!==0)days.push(d)}
+  const list=DB.appts.filter(a=>a.date===adminDay).sort((a,b)=>a.time.localeCompare(b.time));
+  $('#tabBody').innerHTML=newApptBlock()+`<div class="days" style="margin-bottom:12px">${days.map(d=>{const x=parse(d);const n=DB.appts.filter(a=>a.date===d&&a.status!=='cancelada').length;
+    return `<button class="day" data-d="${d}" aria-pressed="${d===adminDay}"><small>${d===TODAY?'Hoy':x.toLocaleDateString('es-CO',{weekday:'short'}).replace('.','')}</small><b>${x.getDate()}</b><small>${n} cita${n===1?'':'s'}</small></button>`}).join('')}</div>
+   <div class="panel"><h3 style="font-size:20px;margin-bottom:4px">${fmtDate(adminDay)}</h3>
+   ${list.length?list.map(a=>{const tot=a.services.reduce((x,i)=>x+svc(i).price,0);const first=a.client.name.split(' ')[0];
+     const msg=`Hola ${first}, te escribimos de Rosé Nails Studio para confirmar tu cita del ${fmtDate(a.date)} a las ${a.time} con ${staffName(a.staff)} (${a.services.map(svcLabel).join(', ')}). ¿Nos confirmas? 💅`;
+     return `<div class="appt"><div class="time">${a.time}</div>
+      <div class="who"><b>${esc(a.client.name)}</b> <span class="pill ${STATUS[a.status]}">${a.status}</span>
+       <div class="meta">${a.services.map(svcLabel).join(' + ')} · ${staffName(a.staff)} · <span class="num">${money(tot)}</span></div>
+       <div class="meta num">Cel. ${a.client.phone.replace(/(\d{3})(\d{3})(\d{4})/,'$1 $2 $3')} ${a.client.promos?'· acepta promociones':''}</div>
+       ${styleText(a.style)?`<div class="style-line">${esc(styleText(a.style))}</div>`:''}
+       ${a.notes?`<div class="style-line">📝 ${esc(a.notes)}</div>`:''}</div>
+      <div class="acts"><select data-id="${a.id}" aria-label="Estado de la cita">${Object.keys(STATUS).map(s=>`<option ${s===a.status?'selected':''}>${s}</option>`).join('')}</select>
+       <a class="btn sm ghost" href="${wa(a.client.phone,msg)}" target="_blank" rel="noopener">Confirmar por WhatsApp</a></div></div>`}).join('')
+   :`<div class="empty-note" style="margin-top:10px">No hay citas este día.</div>`}</div>
+   <p class="note">Al marcar una cita como <b>atendida</b>, la clienta entra al seguimiento de renovación con la fecha de ese día.</p>`;
+  bindNewAppt();
+  $('#tabBody').querySelectorAll('.day').forEach(b=>b.onclick=()=>{adminDay=b.dataset.d;if(NA){NA.date=adminDay;NA.time=''}renderAgenda()});
+  $('#tabBody').querySelectorAll('select').forEach(s=>s.onchange=()=>{DB.appts.find(a=>a.id===s.dataset.id).status=s.value;save();renderAdmin();toast('Estado actualizado')});
+}
+function renderRenew(R){
+  const F={todas:()=>true,vencidas:r=>r.level==='bad',pronto:r=>r.level==='warn',agendadas:r=>r.level==='info',aldia:r=>r.level==='ok'};
+  const lab={todas:'Todas',vencidas:'Vencidas',pronto:'Renuevan en ≤5 días',agendadas:'Ya agendaron',aldia:'Al día'};
+  const list=R.filter(F[renewFilter]);
+  $('#tabBody').innerHTML=`<div class="filters">${Object.keys(F).map(k=>`<button class="chip" data-f="${k}" aria-pressed="${k===renewFilter}">${lab[k]} (${R.filter(F[k]).length})</button>`).join('')}</div>
+  <div class="panel">${list.length?list.map(r=>{const s=svc(r.next.id);const first=r.c.name.split(' ')[0];
+    const when=r.days<0?`vencida hace ${-r.days} día${r.days===-1?'':'s'}`:r.days===0?'le toca hoy':`le toca en ${r.days} día${r.days===1?'':'s'}`;
+    const pill=r.level==='info'?`<span class="pill info">Agendada ${shortDate(r.booked.date)}</span>`:`<span class="pill ${r.level}">${when}</span>`;
+    const msg=`Hola ${first} 💖 Ya van ${diff(r.last.date,TODAY)} días desde tu ${svcLabel(s.id)} en Rosé Nails. Es buen momento para renovarla y que tus uñas sigan perfectas. ¿Te agendamos con ${staffName(r.last.staff).split(' ')[0]}? Esta semana tenemos horarios libres.`;
+    return `<div class="renew-row"><span class="bar ${r.level}"></span>
+     <div><b>${esc(r.c.name)}</b> ${pill}
+      <div class="meta">Último: ${r.last.services.map(svcLabel).join(' + ')} el ${shortDate(r.last.date)} con ${staffName(r.last.staff)} · se renueva cada ${renewDays(s.id)} días → <span class="num">${shortDate(r.next.due)}</span></div></div>
+     <div class="acts">${r.level==='info'?'':r.c.promos?`<a class="btn sm" href="${wa(r.c.phone,msg)}" target="_blank" rel="noopener">Enviar recordatorio</a>`:`<span class="pill" style="background:var(--surface-2);color:var(--muted)">No autorizó mensajes</span>`}</div></div>`}).join('')
+   :`<div class="empty-note">Ninguna clienta en este grupo.</div>`}</div>
+  <p class="note">El día de renovación sale del último servicio atendido y de los días que dura cada servicio (puedes ajustarlos en "Servicios y tiempos"). Solo se ofrece el recordatorio a quien autorizó guardar su número.</p>`;
+  $('#tabBody').querySelectorAll('[data-f]').forEach(b=>b.onclick=()=>{renewFilter=b.dataset.f;renderAdmin()});
+}
+function renderClients(cl){
+  cl.sort((a,b)=>a.name.localeCompare(b.name));
+  $('#tabBody').innerHTML=`<div class="panel table-wrap"><table><thead><tr><th>Clienta</th><th>Celular</th><th>Visitas</th><th>Última visita</th><th>Manicurista habitual</th><th>Total</th><th>Promociones</th></tr></thead><tbody>
+   ${cl.map(c=>{const done=c.appts.filter(a=>a.status==='atendida').sort((a,b)=>b.date.localeCompare(a.date));
+     const tot=done.reduce((x,a)=>x+a.services.reduce((y,i)=>y+svc(i).price,0),0);
+     const cnt={};c.appts.forEach(a=>cnt[a.staff]=(cnt[a.staff]||0)+1);const fav=Object.entries(cnt).sort((a,b)=>b[1]-a[1])[0][0];
+     return `<tr><td><b>${esc(c.name)}</b></td><td class="n">${c.phone.replace(/(\d{3})(\d{3})(\d{4})/,'$1 $2 $3')}</td><td class="n">${done.length}</td><td class="n">${done[0]?shortDate(done[0].date):'—'}</td><td>${staffName(fav)}</td><td class="n">${money(tot)}</td>
+      <td>${c.promos?'<span class="pill ok">Autoriza</span>':'<span class="pill bad">No autoriza</span>'}</td></tr>`}).join('')}
+   </tbody></table></div>`;
+}
+function renderSvcTable(){
+  $('#tabBody').innerHTML=`<div class="panel table-wrap"><table><thead><tr><th>Categoría</th><th>Servicio</th><th>Precio</th><th>Duración cita</th><th>Renovar cada (días)</th></tr></thead><tbody>
+   ${SERVICES.map(s=>`<tr><td class="muted">${s.cat}</td><td><b>${s.name}</b></td><td class="n">${money(s.price)}</td><td class="n">${fmtMin(s.min)}</td>
+    <td><input type="number" min="1" max="90" id="r-${s.id}" data-id="${s.id}" value="${renewDays(s.id)}" aria-label="Días para renovar ${s.cat} ${s.name}"></td></tr>`).join('')}
+   </tbody></table></div><p class="note">Los días de renovación son un punto de partida: el tradicional dura una semana, el semipermanente unas 2 a 3 semanas y los sistemas en gel o acrigel unas 3 semanas antes del relleno. Ajústalos según tus clientas.</p>`;
+  $('#tabBody').querySelectorAll('input').forEach(i=>i.onchange=()=>{const v=parseInt(i.value);if(v>0){DB.renewOverride[i.dataset.id]=v;save();toast('Tiempo de renovación guardado');const R=renewals();$('#renewCount').textContent=R.filter(r=>r.level==='bad'||r.level==='warn').length}});
+}
+$('#resetBtn').onclick=()=>{DB=seed();save();adminDay=TODAY;renderAdmin();toast('Datos de ejemplo restablecidos')};
 
-/* ---------- Diseños ---------- */
-function drawNail(cv,d){
-  const W=300,H=300;cv.width=W;cv.height=H;const g=cv.getContext("2d");
-  g.fillStyle="#EAD7CC";g.fillRect(0,0,W,H);
-  const nail=(x,y,w,h)=>{g.beginPath();g.moveTo(x,y+h);g.lineTo(x,y+w/2);g.arc(x+w/2,y+w/2,w/2,Math.PI,0);g.lineTo(x+w,y+h);g.closePath()};
-  [[52,70,52,170],[124,40,56,200],[200,62,52,178]].forEach(([x,y,w,h],k)=>{
-    g.save();nail(x,y,w,h);g.clip();
-    if(d.style==="chrome"){const gr=g.createLinearGradient(x,y,x+w,y+h);gr.addColorStop(0,"#F4F2F8");gr.addColorStop(.45,d.base);gr.addColorStop(.6,"#FFFFFF");gr.addColorStop(1,"#8E879E");g.fillStyle=gr}
-    else if(d.style==="glitter"){const gr=g.createLinearGradient(0,y,0,y+h);gr.addColorStop(0,"#C99A3E");gr.addColorStop(.55,d.base);gr.addColorStop(1,d.base);g.fillStyle=gr}
-    else g.fillStyle=d.base;
-    g.fillRect(x,y,w,h);
-    if(d.style==="french"){g.fillStyle="#FFFFFF";g.beginPath();g.ellipse(x+w/2,y+6,w*.62,w*.55,0,0,Math.PI);g.fill()}
-    if(d.style==="glitter"){let s=k*97+13;for(let i=0;i<70;i++){s=(s*9301+49297)%233280;const rx=x+(s/233280)*w;s=(s*9301+49297)%233280;const ry=y+(s/233280)*h*.55;g.fillStyle=i%3?"#FFF4D6":"#E7C16A";g.fillRect(rx,ry,2.5,2.5)}}
-    if(d.style==="dots"){g.fillStyle="#8A2C44";for(let i=0;i<3;i++){g.beginPath();g.arc(x+w/2,y+40+i*26,4,0,7);g.fill()}}
-    g.fillStyle="rgba(255,255,255,.28)";g.fillRect(x+w*.22,y+18,5,h*.5);
-    g.restore();
-  });
-}
-function renderDesigns(){
-  $("#designs").innerHTML = DESIGNS.map(d=>`<button class="design" data-design="${d.id}" aria-pressed="${state.design===d.id}"><canvas aria-hidden="true"></canvas><b>${d.name}</b><small>${d.tag}</small></button>`).join("");
-  document.querySelectorAll("#designs .design").forEach((b,i)=>drawNail(b.querySelector("canvas"),DESIGNS[i]));
-}
-
-/* ---------- Reserva ---------- */
-function nextDays(){
-  const out=[],now=new Date();const wd=["dom","lun","mar","mié","jue","vie","sáb"];
-  for(let i=0;i<8;i++){const d=new Date(now);d.setDate(now.getDate()+i);out.push({key:d.toISOString().slice(0,10),n:d.getDate(),wd:wd[d.getDay()],closed:d.getDay()===0,label:(i===0?"hoy ":i===1?"mañana ":"")+wd[d.getDay()]+" "+d.getDate()})}
-  return out;
-}
-function busy(dayKey,slot){let h=0;for(const ch of dayKey+slot)h=(h*31+ch.charCodeAt(0))%97;return h%4===0}
-function renderReserva(){
-  const items=state.cart.map(id=>ALL[id]).filter(Boolean).filter(s=>!state.off.includes(s.id));
-  if(!items.length){
-    $("#resBody").innerHTML=`<div class="card empty"><p style="margin:0 0 14px">Aún no has elegido servicios.</p><button class="cta" data-go="servicios">Ver servicios</button></div>`;
-    return;
-  }
-  const total=items.reduce((a,s)=>a+s.price,0), mins=items.reduce((a,s)=>a+s.min,0);
-  const days=nextDays(); if(!state.day){const f=days.find(d=>!d.closed);state.day=f.key}
-  const dsg=DESIGNS.find(d=>d.id===state.design);
-  const points=store.get("points",7);
-  $("#resBody").innerHTML=`
-  <div class="card">
-    <h4>Servicios</h4>
-    ${items.map(s=>`<div class="line"><span>${s.cat==="Combos manos y pies"?"Combo ":""}${s.name}<button class="x" data-del="${s.id}">Quitar</button></span><span class="price">${money(s.price)}</span></div>`).join("")}
-    <div class="line total"><span>Total aprox. · ${dur(mins)}</span><span>${money(total)}</span></div>
-    <div class="line" style="font-size:13.5px;color:var(--muted)"><span>Diseño de referencia: <b style="color:var(--ink)">${dsg?dsg.name:"ninguno"}</b></span><button class="x" data-go="disenos">Cambiar</button></div>
-  </div>
-  <div class="card">
-    <h4>Día y hora</h4>
-    <div class="days" role="group" aria-label="Día">${days.map(d=>`<button class="day" data-day="${d.key}" aria-pressed="${state.day===d.key}" ${d.closed?"disabled":""} aria-label="${d.label}${d.closed?", cerrado":""}"><small>${d.wd}</small><b>${d.n}</b></button>`).join("")}</div>
-    <div class="hours" role="group" aria-label="Hora">${SLOTS.map(s=>{const b=busy(state.day,s);return `<button class="hour" data-slot="${s}" aria-pressed="${state.slot===s}" ${b?"disabled":""} aria-label="${s}${b?", ocupado":""}">${s}</button>`}).join("")}</div>
-    <p style="margin:10px 0 0;font-size:12.5px;color:var(--muted)">Las horas tachadas ya están ocupadas. El salón confirma tu cita por WhatsApp.</p>
-    <label class="f" for="pro">Manicurista</label>
-    <select class="t" id="pro">${PROS.map(p=>`<option ${state.pro===p?"selected":""}>${p}</option>`).join("")}</select>
-  </div>
-  <div class="card">
-    <h4>Tus datos</h4>
-    <label class="f" for="name" style="margin-top:0">Nombre</label>
-    <input class="t" id="name" autocomplete="name" value="${esc(state.name)}" placeholder="Ej. Carolina Pérez">
-    <label class="f" for="phone">Celular</label>
-    <input class="t" id="phone" inputmode="tel" autocomplete="tel" value="${esc(state.phone)}" placeholder="300 000 0000">
-    <label class="f" for="notes">Notas (opcional)</label>
-    <textarea class="t" id="notes" placeholder="Ej. traigo foto del diseño, uñas largas, alergia a algún producto">${esc(state.notes)}</textarea>
-    <label class="check" for="consent"><input type="checkbox" id="consent" ${state.consent?"checked":""}><span>Acepto que Nácar guarde mis datos para recordarme mi próxima cita y enviarme promociones por WhatsApp.<small>Puedes pedir que te retiremos cuando quieras (Ley 1581 de 2012).</small></span></label>
-  </div>
-  <div class="card">
-    <h4>Tu tarjeta de puntos</h4>
-    <div style="font-size:14px">${points} de 10 visitas. En la 10.ª tienes <b>50% en tu manicura</b>.</div>
-    <div class="stamps" aria-hidden="true">${Array.from({length:10},(_,i)=>`<span class="stamp${i<points?" full":""}${i===9?" gift":""}"></span>`).join("")}</div>
-  </div>
-  <button class="cta" id="send"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.4 8.4 0 0 1-12.4 7.4L3 21l2.1-5.4A8.4 8.4 0 1 1 21 11.5z"/></svg>Enviar reserva por WhatsApp</button>
-  <div class="err" id="err" role="alert"></div>`;
-}
-function buildMsg(){
-  const items=state.cart.map(id=>ALL[id]).filter(s=>s&&!state.off.includes(s.id));
-  const total=items.reduce((a,s)=>a+s.price,0), mins=items.reduce((a,s)=>a+s.min,0);
-  const d=nextDays().find(x=>x.key===state.day); const dsg=DESIGNS.find(x=>x.id===state.design);
-  return ["*Nueva reserva · Nácar Nail Studio*","",
-    ...items.map(s=>"• "+(s.cat==="Combos manos y pies"?"Combo ":s.cat+" ")+s.name+" — "+money(s.price)),
-    "","*Total aprox.:* "+money(total)+" ("+dur(mins)+")",
-    "*Diseño de referencia:* "+(dsg?dsg.name:"ninguno"),
-    "*Día:* "+(d?d.label:"")+"  *Hora:* "+state.slot,
-    "*Manicurista:* "+state.pro,"",
-    "*Nombre:* "+state.name.trim(),"*Celular:* "+state.phone.trim(),
-    state.notes.trim()?"*Notas:* "+state.notes.trim():"",
-    "*Recordatorios y promos:* "+(state.consent?"Sí acepta":"No acepta")
-  ].filter((l,i,a)=>!(l===""&&a[i-1]==="")).join("\n").trim();
-}
-
-/* ---------- Panel ---------- */
-function renderPanel(){
-  const today=[
-    ["9:30","Mariana G.","Combo semipermanente","Confirmada"],
-    ["11:00","Paula R.","Soft gel","Confirmada"],
-    ["2:30","Sofía L.","Manicura tradicional","Por confirmar"],
-    ["5:30","Natalia C.","Dipping + Jelly spa","Por confirmar"]];
-  $("#todayList").innerHTML=today.map(r=>`<div class="row"><div class="who"><b>${r[0]} · ${r[1]}</b><span>${r[2]}</span></div><span class="tag" style="color:${r[3]==="Confirmada"?"var(--ok)":"var(--gold)"}">${r[3]}</span></div>`).join("");
-  $("#promoInput").value=state.promo;
-  const list=clients().map(c=>({...c,...dueInfo(c)})).sort((a,b)=>a.diff-b.diff);
-  const reminded=store.get("reminded",{});const todayKey=isoDaysAgo(0);
-  const dueNow=list.filter(c=>c.diff<=0).length, soon=list.filter(c=>c.diff>0&&c.diff<=7).length, ok=list.filter(c=>c.consent).length;
-  $("#clientSum").innerHTML=`<span>${list.length} clientas</span><span style="color:var(--accent)">${dueNow} por recordar hoy</span><span>${soon} esta semana</span>`;
-  $("#clientList").innerHTML=list.map((c,i)=>{
-    const names=c.services.map(id=>ALL[id]?(ALL[id].cat==="Combos manos y pies"?"Combo ":"")+ALL[id].name.toLowerCase():"").join(" + ");
-    const st=c.diff<0?`Le tocaba hace ${-c.diff} día${c.diff===-1?"":"s"}`:c.diff===0?"Le toca hoy":`Le toca en ${c.diff} día${c.diff===1?"":"s"}`;
-    const col=c.diff<=0?"var(--accent)":"var(--muted)";
-    const done=reminded[c.name+c.date]===todayKey;
-    const btn=!c.consent?`<span class="tag" style="color:var(--muted)">Sin autorización</span>`
-      :`<button class="remind${done?" done":""}" data-remind="${i}" aria-label="Recordar a ${esc(c.name)} por WhatsApp">${done?"Recordada":'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.4 8.4 0 0 1-12.4 7.4L3 21l2.1-5.4A8.4 8.4 0 1 1 21 11.5z"/></svg>Recordar'}</button>`;
-    return `<div class="row"><div class="who"><b>${esc(c.name)}${c.sample?"":" · nueva"}</b><span>${esc(names)} · cada ${c.days} días</span><br><span class="st" style="color:${col}">${st}</span></div>${btn}</div>`}).join("");
-  renderPanel.list=list;
-  $("#promoAud").textContent=`${ok} de ${list.length} clientas aceptaron promociones. Copia el texto y envíalo por una lista de difusión de WhatsApp Business.`;
-  $("#toggles").innerHTML=CATS.map(c=>`<div style="font-weight:700;margin:14px 0 2px">${c.name}</div>`+c.items.map(([id])=>{const s=ALL[id];const on=!state.off.includes(id);
-    return `<div class="row"><div class="who"><b>${s.name}</b><span>${money(s.price)}</span></div><label class="switch"><input type="checkbox" id="tg-${id}" data-tg="${id}" ${on?"checked":""} aria-label="${s.name} (${c.name}) disponible"><span></span></label></div>`}).join("")).join("");
-}
-
-/* ---------- Navegación ---------- */
-function show(v){
-  ["servicios","disenos","reserva","panel"].forEach(x=>$("#v-"+x).hidden=x!==v);
-  document.querySelectorAll("nav.bottom button").forEach(b=>{if(b.dataset.v===v)b.setAttribute("aria-current","page");else b.removeAttribute("aria-current")});
-  if(v==="servicios")renderCats();
-  if(v==="disenos")renderDesigns();
-  if(v==="reserva")renderReserva();
-  if(v==="panel")renderPanel();
-  window.scrollTo(0,0);
-}
-
-document.addEventListener("click",e=>{
-  const t=e.target.closest("button");if(!t)return;
-  if(t.dataset.v){show(t.dataset.v);return}
-  if(t.dataset.go){show(t.dataset.go);return}
-  if(t.dataset.cat){document.querySelectorAll(".chip").forEach(c=>c.setAttribute("aria-pressed",c===t));
-    const sec=$("#cat-"+t.dataset.cat);const y=sec.getBoundingClientRect().top+window.scrollY-130;window.scrollTo({top:y,behavior:matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth"});return}
-  if(t.dataset.add){const id=t.dataset.add;const i=state.cart.indexOf(id);
-    if(i>=0){state.cart.splice(i,1);toast("Quitado")}else{state.cart.push(id);toast(ALL[id].name+" agregado")}
-    save();renderCats();return}
-  if(t.dataset.design){state.design=t.dataset.design;save();renderDesigns();toast("Diseño elegido: "+DESIGNS.find(d=>d.id===state.design).name);return}
-  if(t.dataset.del){state.cart=state.cart.filter(x=>x!==t.dataset.del);save();updateCount();renderReserva();return}
-  if(t.dataset.day){state.day=t.dataset.day;state.slot=null;renderReserva();return}
-  if(t.dataset.slot){state.slot=t.dataset.slot;renderReserva();return}
-  if(t.dataset.remind){
-    const c=renderPanel.list[+t.dataset.remind];
-    const names=c.services.map(id=>ALL[id]?ALL[id].name.toLowerCase():"").join(" y ");
-    const first=c.name.split(" ")[0];
-    const msg=c.diff<=0
-      ?`Hola ${first}, te saluda Nácar Nail Studio. Ya es momento de renovar tu ${names}. ¿Te agendamos esta semana? Responde con el día que te quede mejor.`
-      :`Hola ${first}, te saluda Nácar Nail Studio. En ${c.diff} día${c.diff===1?"":"s"} te toca renovar tu ${names}. ¿Te apartamos un espacio?`;
-    const num=c.phone?("57"+c.phone.replace(/\D/g,"").slice(-10)):WHATSAPP;
-    const a=document.createElement("a");a.href="https://wa.me/"+num+"?text="+encodeURIComponent(msg);a.target="_blank";a.rel="noopener";document.body.appendChild(a);a.click();a.remove();
-    const r=store.get("reminded",{});r[c.name+c.date]=isoDaysAgo(0);store.set("reminded",r);renderPanel();toast("Abriendo WhatsApp para "+first);return}
-  if(t.id==="copyPromo"){
-    const txt="Nácar Nail Studio · Promo del mes\n"+state.promo+"\nReserva aquí: [link del catálogo]";
-    navigator.clipboard.writeText(txt).then(()=>toast("Promo copiada")).catch(()=>{const ta=$("#promoInput");ta.focus();ta.select();toast("Selecciona y copia el texto")});return}
-  if(t.id==="send"){
-    const err=$("#err");
-    if(!state.slot){err.textContent="Elige una hora para tu cita.";return}
-    if(state.name.trim().length<2){err.textContent="Escribe tu nombre.";$("#name").focus();return}
-    if(state.phone.replace(/\D/g,"").length<10){err.textContent="Escribe un celular de 10 dígitos.";$("#phone").focus();return}
-    err.textContent="";store.set("name",state.name);store.set("phone",state.phone);
-    const saved=store.get("clients",[]).filter(c=>c.phone.replace(/\D/g,"")!==state.phone.replace(/\D/g,""));
-    saved.unshift({name:state.name.trim(),phone:state.phone.trim(),services:state.cart.filter(id=>!state.off.includes(id)),date:state.day,consent:state.consent});
-    store.set("clients",saved);
-    const a=document.createElement("a");a.href="https://wa.me/"+WHATSAPP+"?text="+encodeURIComponent(buildMsg());a.target="_blank";a.rel="noopener";document.body.appendChild(a);a.click();a.remove();
-    toast("Abriendo WhatsApp con tu reserva");
-  }
-});
-document.addEventListener("input",e=>{
-  const id=e.target.id;
-  if(id==="name"||id==="phone"||id==="notes")state[id]=e.target.value;
-  if(id==="pro")state.pro=e.target.value;
-  if(id==="promoInput"){state.promo=e.target.value;save()}
-});
-document.addEventListener("change",e=>{
-  if(e.target.id==="pro")state.pro=e.target.value;
-  if(e.target.id==="consent")state.consent=e.target.checked;
-  if(e.target.dataset&&e.target.dataset.tg){const id=e.target.dataset.tg;
-    state.off=e.target.checked?state.off.filter(x=>x!==id):[...state.off,id];save();toast(e.target.checked?"Servicio activado":"Servicio oculto para reservas")}
-});
-
-(function(){const h=new Date().getHours(),d=new Date().getDay();const open=d!==0&&h>=8&&h<20;const el=$("#openState");el.textContent=open?"Abierto ahora":"Abre 8:00 a. m.";if(!open)el.style.color="var(--muted)"})();
-renderChips();renderCats();
+initBook();
+if(location.hash==='#panel')setView('admin');
 </script>
-
+</body>
 </html>
